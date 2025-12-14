@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>myMac - Igor Janicki</title>
+    <title>get-dmg.com | Professional Mac Tools</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍏</text></svg>">
+    
     <style>
-        /* --- 1. USTAWIENIA OGÓLNE I STYL MACOS --- */
+        /* --- 1. ZMIENNE --- */
         :root {
-            /* Paleta barw inspirowana macOS Dark Mode */
-            --bg-main: #1e1e1e;       /* Tło główne */
-            --bg-sidebar: #151516;    /* Ciemniejszy pasek boczny */
-            --border-color: #38383a;  /* Wyraźna linia oddzielająca */
-            --text-main: #f5f5f7;     /* Biel Apple */
-            --text-muted: #86868b;    /* Szary tekst poboczny */
-            --accent-color: #0A84FF;  /* Systemowy niebieski macOS */
-            --accent-hover: #0071e3;  /* Ciemniejszy niebieski po najechaniu */
+            --bg-main: #0d0d0d;
+            --bg-sidebar: #161617;
+            --card-bg: #1c1c1e;
+            --card-hover: #252527;
+            --border-color: #38383a;
+            --text-main: #f5f5f7;
+            --text-muted: #86868b;
+            --accent-color: #0A84FF;
+            --accent-hover: #0077ED;
+            --coffee-color: #d4a373;
+            --coffee-hover: #c58f5d;
         }
 
+        html { scroll-behavior: smooth; }
         * { box-sizing: border-box; }
 
         body {
@@ -26,258 +32,674 @@
             color: var(--text-main);
             display: flex;
             min-height: 100vh;
-        }
-
-        /* --- 2. PASEK BOCZNY (SIDEBAR) --- */
-        nav {
-            width: 260px;
-            background-color: var(--bg-sidebar);
-            /* Wyraźna linia oddzielająca sekcje */
-            border-right: 1px solid var(--border-color); 
-            display: flex;
-            flex-direction: column;
-            padding: 30px 20px;
-            position: fixed;
-            height: 100%;
-            z-index: 100;
-        }
-
-        nav h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 40px;
-            padding-left: 10px;
-            letter-spacing: 0.5px;
-        }
-
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 12px 15px;
-            margin-bottom: 5px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            font-size: 0.95rem;
-        }
-
-        nav a:hover, nav a.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-        }
-
-        /* --- 3. GŁÓWNA TREŚĆ --- */
-        main {
-            margin-left: 260px;
-            padding: 60px 80px;
-            width: 100%;
             position: relative;
         }
 
-        /* Przełącznik języka */
-        .lang-switch-container {
-            position: absolute;
-            top: 30px;
-            right: 40px;
+        /* --- 2. SIDEBAR --- */
+        nav {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            padding: 30px 20px;
+            position: fixed; height: 100%; z-index: 100;
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
         }
 
-        #lang-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 20px;
-            font-size: 1.5rem; /* Większa ikona flagi/globusa */
-            transition: 0.3s;
-            line-height: 1;
+        .sidebar-logo { 
+            width: 165px; margin-bottom: 30px; display: block;
+            -webkit-user-select: none; user-select: none; pointer-events: none;
         }
 
-        #lang-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--accent-color);
+        nav ul { list-style: none; padding: 0; margin: 0; }
+        nav li { margin-bottom: 2px; }
+
+        nav a {
+            text-decoration: none; display: block; border-radius: 6px; 
+            transition: 0.2s; cursor: pointer;
         }
 
-        /* Sekcje */
+        .nav-main { color: var(--text-main); font-weight: 600; font-size: 1rem; padding: 10px 10px; }
+        .nav-main:hover, .nav-main.active { background-color: rgba(255, 255, 255, 0.1); }
+
+        .nav-sub {
+            color: var(--text-muted); font-weight: 400; font-size: 0.9rem;
+            padding: 8px 10px; margin-left: 20px; border-left: 1px solid transparent;
+        }
+        .nav-sub:hover, .nav-sub.active { color: var(--text-main); border-left-color: var(--text-muted); }
+
+        /* --- 3. TOP BAR --- */
+        .top-controls {
+            position: absolute; top: 20px; right: 30px; z-index: 999;
+            display: flex; gap: 15px; align-items: center;
+            background: rgba(28, 28, 30, 0.6); backdrop-filter: blur(10px);
+            padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border-color);
+        }
+
+        .download-icon-btn {
+            color: var(--accent-color); display: flex; align-items: center; 
+            justify-content: center; text-decoration: none; transition: 0.2s; cursor: pointer;
+        }
+
+        select#language-picker {
+            background: transparent; color: var(--text-main); border: none; 
+            font-size: 0.9rem; cursor: pointer; outline: none; 
+            font-weight: 500; text-align: right; -webkit-appearance: none;
+        }
+        select#language-picker option { background-color: #1c1c1e; }
+
+        /* --- HAMBURGER MENU --- */
+        .hamburger-btn {
+            display: none; position: fixed; top: 20px; left: 20px; z-index: 1001;
+            background: rgba(28, 28, 30, 0.8); backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color); color: white; padding: 10px; border-radius: 8px; cursor: pointer;
+        }
+        .menu-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 99; backdrop-filter: blur(3px);
+        }
+        @media (min-width: 769px) { .menu-overlay { display: none !important; } }
+
+        /* --- 4. TREŚĆ --- */
+        main { margin-left: 260px; width: 100%; position: relative; }
+
         section {
-            /* Min-height sprawia, że każda sekcja zajmuje sporo miejsca, 
-               dzięki czemu nie zlewają się ze sobą */
-            min-height: 80vh; 
-            max-width: 800px;
-            padding-top: 40px;
-            margin-bottom: 60px;
-            border-bottom: 1px solid var(--border-color); /* Linia na dole sekcji */
-        }
-        
-        section:last-child { border-bottom: none; }
-
-        h1 { 
-            font-size: 2.5rem; 
-            margin-bottom: 20px; 
-            font-weight: 700;
-        }
-        
-        h2 { 
-            font-size: 2rem; 
-            color: var(--accent-color);
-            margin-bottom: 20px;
+            padding: 60px 40px; border-bottom: 1px solid var(--border-color);
+            display: flex; flex-direction: column; justify-content: center; scroll-margin-top: 20px;
         }
 
-        p { 
-            line-height: 1.7; 
-            font-size: 1.1rem; 
-            color: #d1d1d6;
-            margin-bottom: 20px;
-        }
-
-        .signature {
-            margin-top: 40px;
-            font-style: italic;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        /* Karta Aplikacji */
+        /* --- KARTY APLIKACJI (Clean Look) --- */
         .app-card {
-            background-color: #2c2c2e;
-            padding: 30px;
-            border-radius: 12px;
-            margin-top: 20px;
-            border: 1px solid var(--border-color);
+            background: var(--card-bg); padding: 25px; border-radius: 16px;
+            border: 1px solid var(--border-color); max-width: 800px; width: 100%;
+            display: flex; align-items: center; gap: 25px; transition: background 0.3s;
+        }
+        .app-card:hover { background: var(--card-hover); }
+
+        .app-icon-img {
+            width: 70px; height: 70px; border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); object-fit: cover; flex-shrink: 0;
         }
 
-        .download-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 25px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: background-color 0.2s;
+        .app-card-content { flex-grow: 1; display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .app-card-content h2 { font-size: 2rem; margin: 0; color: var(--text-main); line-height: 1; }
+
+        .btn-more {
+            display: inline-block; padding: 10px 25px;
+            border: 1px solid var(--accent-color); color: var(--accent-color);
+            border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 1rem;
+            transition: 0.2s; cursor: pointer; background: transparent;
+        }
+        .btn-more:hover { background: var(--accent-color); color: white; }
+
+        /* HERO */
+        #home { padding: 100px 60px; min-height: 80vh; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .hero-img { width: 100%; border-radius: 12px; border: 1px solid var(--border-color); opacity: 0.8; }
+        h1 { font-size: 3.5rem; margin: 0 0 20px 0; font-weight: 700; line-height: 1.1; }
+        p.desc { font-size: 1.2rem; line-height: 1.6; color: var(--text-muted); max-width: 700px; margin-bottom: 30px; }
+
+        /* DOWNLOADS */
+        .download-list { width: 100%; max-width: 1000px; margin-top: 20px;}
+        .download-list details {
+            background: var(--card-bg); margin-bottom: 10px;
+            border-radius: 10px; border: 1px solid var(--border-color); overflow: hidden;
+        }
+        .download-list summary {
+            padding: 15px 20px; cursor: pointer; font-weight: 600;
+            display: flex; justify-content: space-between; align-items: center; list-style: none;
+        }
+        .download-list summary::after { content: '+'; font-size: 1.5rem; color: var(--accent-color); }
+        .download-list details[open] summary::after { content: '-'; }
+        
+        .version-table { width: 100%; border-collapse: collapse; }
+        .version-table td, .version-table th { padding: 12px 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); text-align: left; font-size: 0.95rem; }
+        .version-table th { color: #fff; text-transform: uppercase; font-size: 0.75rem; }
+        
+        .download-link { color: var(--accent-color); font-weight: bold; text-decoration: none; cursor: pointer; }
+        .download-link:hover { text-decoration: underline; }
+
+        /* KONTAKT */
+        #contact { text-align: center; align-items: center; padding-top: 80px; padding-bottom: 80px; }
+        .contact-card {
+            background: linear-gradient(145deg, #1c1c1e, #151516); padding: 40px; 
+            border-radius: 24px; border: 1px solid var(--border-color);
+            max-width: 600px; width: 100%; display: flex; flex-direction: column; align-items: center;
+        }
+        .contact-logo { width: 150px; height: auto; margin-bottom: 25px; pointer-events: none; }
+        .contact-box p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 15px; }
+        .donate-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background-color: var(--coffee-color); color: white; padding: 12px 30px;
+            border-radius: 30px; font-weight: 600; font-size: 1rem;
+            text-decoration: none; margin: 10px 0; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3);
+        }
+        .donate-btn:hover { background-color: var(--coffee-hover); transform: translateY(-3px); }
+        .legal-line {
+            font-size: 0.75rem; color: #555; max-width: 500px; margin-top: 20px; line-height: 1.4;
+            display: flex; justify-content: center;
+        }
+        .legal-link { color: var(--text-muted); text-decoration: underline; cursor: pointer; }
+        .legal-link:hover { color: var(--accent-color); }
+
+        /* BACK TO TOP */
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background-color: var(--accent-color); color: white; border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000; transition: 0.3s; opacity: 0;
+        }
+        .back-to-top.visible { display: flex; opacity: 1; }
+        .back-to-top:hover { background-color: var(--accent-hover); transform: translateY(-5px); }
+
+        /* --- MODALE --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            z-index: 2000; display: none; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: #1c1c1e; width: 95%; max-width: 1000px; height: 90vh; padding: 40px;
+            border-radius: 20px; border: 1px solid var(--border-color); position: relative; overflow-y: auto;
+        }
+        .close-modal {
+            position: absolute; top: 20px; right: 20px; background: none; border: none;
+            color: white; font-size: 2.5rem; cursor: pointer; z-index: 10;
         }
 
-        .download-btn:hover {
-            background-color: var(--accent-hover);
+        .modal-header { display: flex; align-items: center; gap: 25px; margin-bottom: 25px; }
+        .modal-header-icon {
+            width: 80px; height: 80px; border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); object-fit: cover;
+        }
+        .modal-header h2 { margin: 0; font-size: 2.5rem; line-height: 1; color: var(--text-main); }
+
+        .static-description { margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 20px; }
+        .static-description h3 { color: var(--text-main); margin-bottom: 10px; font-size: 1.2rem; }
+        .static-description p { color: var(--text-muted); line-height: 1.6; font-size: 1rem; margin: 0; }
+
+        details.manual-details {
+            background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 12px; margin-bottom: 20px;
+        }
+        details.manual-details summary {
+            padding: 20px; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: var(--accent-color);
+            list-style: none; display: flex; justify-content: space-between; align-items: center;
+        }
+        details.manual-details summary::after { content: '+'; font-size: 1.5rem; color: var(--text-muted); }
+        details.manual-details[open] summary::after { content: '-'; }
+        
+        .manual-inner { padding: 0 25px 25px 25px; }
+
+        /* GRID INSTRUKCJI */
+        .manual-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; align-items: stretch;
         }
 
-        /* --- LOGIKA JĘZYKOWA --- */
-        body.lang-en .pl { display: none; }
-        body.lang-pl .en { display: none; }
+        /* STANDARDOWY KAFELEK PIONOWY */
+        .step-card {
+            background: #252527; border: 1px solid #38383a; border-radius: 16px;
+            padding: 25px; display: flex; flex-direction: column; justify-content: space-between;
+            height: 100%;
+        }
+        .step-txt { margin-bottom: 20px; }
+        .step-title {
+            display: block; color: var(--text-main); font-weight: 700; font-size: 1.1rem;
+            margin-bottom: 8px; color: var(--accent-color);
+        }
+        .step-desc { color: var(--text-muted); line-height: 1.5; margin: 0; font-size: 0.95rem; }
+        
+        /* KONTENER NA ZDJĘCIE W KAFELKU PIONOWYM */
+        .step-img-container {
+            width: 100%; height: 320px; 
+            display: flex; align-items: center; justify-content: center;
+            background-color: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid #333;
+            margin-top: auto; overflow: hidden;
+        }
+        .step-img { display: block; object-fit: contain; }
+        .img-fit-height { height: 100%; width: auto; max-width: 100%; }
+        .img-fit-width { width: 100%; height: auto; max-height: 100%; }
 
-        /* Responsywność */
+        /* SPECIAL LAYOUTS */
+        .step-card.horizontal-split {
+            grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 30px;
+        }
+        .step-card.horizontal-split .step-txt { width: 40%; margin-bottom: 0; flex-shrink: 0; }
+        .step-card.horizontal-split .step-imgs-container { 
+            width: 60%; display: flex; gap: 15px; justify-content: center;
+        }
+        .step-card.horizontal-split .step-img {
+            max-height: 350px; width: auto; max-width: 100%; border-radius: 8px; border: 1px solid #444;
+        }
+
+        .step-card.special-v-layout { padding: 0; overflow: hidden; }
+        .special-top-img-container { width: 100%; padding: 25px 25px 0 25px; text-align: center; }
+        .special-top-img { width: 90%; height: auto; border-radius: 12px 12px 0 0; border: 1px solid #444; border-bottom: none; }
+        .special-split-bottom { display: flex; align-items: stretch; border-top: 1px solid #38383a; }
+        .special-split-text { width: 50%; padding: 25px; border-right: 1px solid #38383a; }
+        .special-split-img-container { width: 50%; padding: 25px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); }
+        .special-split-img { max-width: 100%; max-height: 250px; height: auto; border-radius: 8px; border: 1px solid #444; object-fit: contain; }
+
+        .step-card.two-col-text-only {
+            grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;
+        }
+        .step-card.two-col-text-only .step-txt { margin-bottom: 0; }
+
+        .manual-full-width {
+            grid-column: 1 / -1; margin-top: 20px; margin-bottom: 10px;
+            font-weight: bold; font-size: 1.1rem; color: white;
+            border-top: 1px solid #333; padding-top: 20px;
+        }
+        .manual-footer {
+            margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;
+            text-align: center; color: var(--text-muted);
+        }
+
+        .modal-download-btn {
+            display: block; width: 100%; text-align: center; padding: 15px; margin-top: 30px;
+            background: transparent; border: 2px solid var(--accent-color); 
+            color: var(--accent-color); border-radius: 12px; 
+            font-weight: bold; font-size: 1.2rem; text-decoration: none; 
+            cursor: pointer; transition: 0.3s;
+        }
+        .modal-download-btn:hover { background: var(--accent-color); color: white; transform: translateY(-2px); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-images { display: none; }
+            .app-card { flex-direction: column; text-align: center; gap: 15px; }
+            .app-card-content { flex-direction: column; gap: 15px; }
+        }
         @media (max-width: 768px) {
             body { flex-direction: column; }
-            nav { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border-color); padding: 15px; }
-            main { margin-left: 0; padding: 30px 20px; }
-            section { min-height: auto; padding-top: 20px; }
+            .hamburger-btn { display: block; }
+            nav { left: -280px; padding-top: 80px; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+            nav.open { transform: translateX(280px); }
+            .sidebar-logo { display: block; width: 90px; margin: 0 auto 30px auto; }
+            main { margin-left: 0; width: 100%; }
+            section { padding: 60px 20px; }
+            h1 { font-size: 2.8rem; }
+            .top-controls { top: 15px; right: 15px; }
+            .modal-content { padding: 20px; }
+            .manual-grid { grid-template-columns: 1fr; }
+            .step-card.horizontal-split, .step-card.two-col-text-only { grid-column: auto; flex-direction: column; display: flex; }
+            .step-card.horizontal-split .step-txt, .step-card.horizontal-split .step-imgs-container { width: 100%; }
+            .step-card.horizontal-split .step-img { max-height: 200px; }
+            .step-img-container { height: auto; padding: 10px; } .step-img { max-height: 250px; }
+            .special-top-img { width: 100%; }
+            .special-split-bottom { flex-direction: column; }
+            .special-split-text, .special-split-img-container { width: 100%; border-right: none; border-bottom: 1px solid #38383a; }
+            .desc-col { display: none; } 
         }
     </style>
 </head>
-<body class="lang-en"> <nav>
-        <h2>myMac</h2>
-        <a href="#home">
-            <span class="en">Home</span>
-            <span class="pl">Strona Główna</span>
-        </a>
-        <a href="#myssh">mySSH</a>
-        <a href="#myip">myIP</a>
-        <a href="#myejector">myEjector</a>
-        <a href="#contact">
-            <span class="en">Contact</span>
-            <span class="pl">Kontakt</span>
-        </a>
+<body>
+
+    <button class="hamburger-btn" onclick="toggleMenu()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <div class="top-controls">
+        <a onclick="smartScroll('downloads')" class="download-icon-btn" title="Downloads"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></a>
+        <select id="language-picker" onchange="setLanguage(this.value)">
+            <option value="en">🇺🇸 EN</option><option value="pl">🇵🇱 PL</option><option value="de">🇩🇪 DE</option><option value="es">🇪🇸 ES</option><option value="it">🇮🇹 IT</option><option value="fr">🇫🇷 FR</option><option value="pt">🇵🇹 PT</option><option value="ua">🇺🇦 UA</option><option value="ru">🏳️ RU</option>
+        </select>
+    </div>
+
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></div>
+
+    <nav id="sidebar">
+        <img src="logo.png" alt="Logo" class="sidebar-logo">
+        <ul>
+            <li><a onclick="smartScroll('home')" class="nav-link nav-main active" data-i18n="nav_home">Home</a></li>
+            <li><a onclick="smartScroll('myip')" class="nav-link nav-sub">myIP</a></li>
+            <li><a onclick="smartScroll('myssh')" class="nav-link nav-sub">mySSH</a></li>
+            <li><a onclick="smartScroll('myejector')" class="nav-link nav-sub">myEjector</a></li>
+            <li><a onclick="smartScroll('myremover')" class="nav-link nav-sub">myRemover</a></li>
+            <li style="margin-top: 20px;"><a onclick="smartScroll('downloads')" class="nav-link nav-main" data-i18n="nav_downloads">Downloads</a></li>
+            <li><a onclick="smartScroll('contact')" class="nav-link nav-main" data-i18n="nav_contact">Contact</a></li>
+        </ul>
     </nav>
 
     <main>
-        <div class="lang-switch-container">
-            <button id="lang-btn" onclick="toggleLanguage()" title="Change Language">🇵🇱</button>
-        </div>
-
         <section id="home">
-            <h1>
-                <span class="en">Welcome!</span>
-                <span class="pl">Witaj!</span>
-            </h1>
-            
-            <div class="pl">
-                <p>Ta strona powstała z myślą o użytkownikach MacOS. Też masz dosyć prostych programów, które kosztują krocie w sklepie? Dobrze trafiłeś!</p>
-                <p>Po lewej stronie możesz wybrać aplikację, która Cię interesuje, a następnie możesz ją pobrać.<br>
-                Bez opłat i mikropłatności.<br>
-                Bezpieczne, szyfrowane, sprawdzone.</p>
-                <p>Brakuje Ci aplikacji? Jesteś zainteresowany aplikacją na wyłączność? Napisz do mnie!</p>
-                <p class="signature">~~~ Igor Janicki ~~~</p>
-            </div>
-
-            <div class="en">
-                <p>This site was created with MacOS users in mind. Are you also tired of simple programs that cost a fortune in the App Store? You've come to the right place!</p>
-                <p>On the left, you can choose the application that interests you and then download it.<br>
-                No fees, no microtransactions.<br>
-                Secure, encrypted, verified.</p>
-                <p>Missing an app? Interested in an exclusive application? Write to me!</p>
-                <p class="signature">~~~ Igor Janicki ~~~</p>
-            </div>
-        </section>
-
-        <section id="myssh">
-            <h2>mySSH</h2>
-            <div class="app-card">
-                <p>
-                    <span class="en">Simple and fast SSH connection manager.</span>
-                    <span class="pl">Prosty i szybki menedżer połączeń SSH.</span>
-                </p>
-                <a href="#" class="download-btn">Download .dmg</a>
+            <div class="hero-grid">
+                <div>
+                    <h1 data-i18n="hero_title">Twój Mac<br>w lepszym wydaniu</h1>
+                    <p class="desc" data-i18n="hero_desc">Darmowe aplikacje na twojego Maca. Bez subskrypcji i mikropłatności. Sprawdzone i bezpieczne.</p>
+                    <a onclick="smartScroll('downloads')" class="btn-more" style="background:var(--text-main); color:black;" data-i18n="hero_btn">Go to Downloads ↓</a>
+                </div>
+                <div class="hero-images"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" class="hero-img" alt="MacBook"></div>
             </div>
         </section>
 
         <section id="myip">
-            <h2>myIP</h2>
             <div class="app-card">
-                <p>
-                    <span class="en">Check your local and public IP instantly.</span>
-                    <span class="pl">Sprawdź natychmiast swój lokalny i publiczny adres IP.</span>
-                </p>
-                <a href="#" class="download-btn">Download .dmg</a>
+                <img src="Ikony aplikacji/myIP/myIP.jpg" alt="myIP" class="app-icon-img">
+                <div class="app-card-content"><h2>myIP</h2><button class="btn-more" onclick="openModal('modal-myip')" data-i18n="btn_read_more">Więcej</button></div>
+            </div>
+        </section>
+
+        <section id="myssh">
+            <div class="app-card">
+                <img src="Ikony aplikacji/mySSH/mySSH.png" alt="mySSH" class="app-icon-img">
+                <div class="app-card-content"><h2>mySSH</h2><button class="btn-more" onclick="openModal('modal-myssh')" data-i18n="btn_read_more">Więcej</button></div>
             </div>
         </section>
 
         <section id="myejector">
-            <h2>myEjector</h2>
             <div class="app-card">
-                <p>
-                    <span class="en">Safely eject all external drives with one click.</span>
-                    <span class="pl">Bezpiecznie wysuń wszystkie dyski zewnętrzne jednym kliknięciem.</span>
-                </p>
-                <a href="#" class="download-btn">Download .dmg</a>
+                <img src="Ikony aplikacji/myEjector/myEjector.png" alt="myEjector" class="app-icon-img">
+                <div class="app-card-content"><h2>myEjector</h2><button class="btn-more" onclick="openModal('modal-myejector')" data-i18n="btn_read_more">Więcej</button></div>
+            </div>
+        </section>
+
+        <section id="myremover">
+            <div class="app-card">
+                <img src="Ikony aplikacji/myRemover/myRemover.png" alt="myRemover" class="app-icon-img">
+                <div class="app-card-content"><h2>myRemover</h2><button class="btn-more" onclick="openModal('modal-myremover')" data-i18n="btn_read_more">Więcej</button></div>
+            </div>
+        </section>
+
+        <section id="downloads">
+            <h2 data-i18n="nav_downloads">Download Center</h2>
+            <div class="download-list">
+                <details id="dl-myip"><summary>myIP</summary><table class="version-table">
+                    <tr><th data-i18n="th_ver">Ver</th><th data-i18n="col_desc" class="desc-col">Description</th><th data-i18n="th_date">Date</th><th data-i18n="th_size">Size</th><th data-i18n="th_action">Action</th></tr>
+                    <tr><td>v1.0</td><td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td><td>2023-11-20</td><td>8 MB</td><td><a onclick="downloadAndScroll('aplikacje/myIP/myIP_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td></tr>
+                </table></details>
+                
+                <details id="dl-myssh"><summary>mySSH</summary><table class="version-table">
+                    <tr><th data-i18n="th_ver">Ver</th><th data-i18n="col_desc" class="desc-col">Description</th><th data-i18n="th_date">Date</th><th data-i18n="th_size">Size</th><th data-i18n="th_action">Action</th></tr>
+                    <tr><td>v1.0</td><td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td><td>2023-10-15</td><td>12 MB</td><td><a onclick="downloadAndScroll('aplikacje/mySSH/mySSH_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td></tr>
+                </table></details>
+                
+                <details id="dl-myejector"><summary>myEjector</summary><table class="version-table">
+                    <tr><th data-i18n="th_ver">Ver</th><th data-i18n="col_desc" class="desc-col">Description</th><th data-i18n="th_date">Date</th><th data-i18n="th_size">Size</th><th data-i18n="th_action">Action</th></tr>
+                    <tr><td>v1.0</td><td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td><td>2023-12-05</td><td>4 MB</td><td><a onclick="downloadAndScroll('aplikacje/myEjector/myEjector_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td></tr>
+                </table></details>
+
+                <details id="dl-myremover"><summary>myRemover</summary><table class="version-table">
+                    <tr><th data-i18n="th_ver">Ver</th><th data-i18n="col_desc" class="desc-col">Description</th><th data-i18n="th_date">Date</th><th data-i18n="th_size">Size</th><th data-i18n="th_action">Action</th></tr>
+                    <tr><td>v1.0</td><td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td><td>2024-02-15</td><td>5 MB</td><td><a onclick="downloadAndScroll('aplikacje/myRemover/myRemover_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td></tr>
+                </table></details>
             </div>
         </section>
 
         <section id="contact">
-            <h2>
-                <span class="en">Contact</span>
-                <span class="pl">Kontakt</span>
-            </h2>
-            <p>
-                Email: <span style="color:var(--accent-color)">twoj-email@example.com</span>
-            </p>
+            <div class="contact-card">
+                <img src="logo.png" alt="Logo" class="contact-logo">
+                <h2 data-i18n="nav_contact" style="margin-bottom: 20px;">Contact</h2>
+                <p data-i18n="donate_text">Hello. All services and apps you found here are fully free...</p>
+                <a href="https://stripe.com" target="_blank" class="donate-btn"><span>☕ Coffee for Igor</span></a>
+                <div class="legal-line"><a onclick="openModal('modal-terms')" class="legal-link" data-i18n="legal_link">Terms & Conditions</a></div>
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; width: 100%; color: var(--text-muted);">
+                    <p data-i18n="contact_text" style="margin-bottom: 10px;">Need a custom feature? Found a bug? Let's talk.</p>
+                    <p style="margin-bottom:0; font-size: 1.1rem;">Igor Janicki <a href="mailto:info@get-dmg.com" style="color: inherit; text-decoration: underline; font-weight: bold; margin-left: 5px;">info@get-dmg.com</a></p>
+                </div>
+            </div>
         </section>
-
     </main>
 
-    <script>
-        function toggleLanguage() {
-            const body = document.body;
-            const btn = document.getElementById('lang-btn');
+    <div id="modal-terms" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><h2 data-i18n="legal_link">Terms & Conditions</h2><div style="text-align: left; color: #ccc; line-height: 1.6;" data-i18n="legal_full_text"></div></div></div>
+    
+    <div id="modal-myip" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myip"></div></div></div>
+    <div id="modal-myssh" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myssh"></div></div></div>
+    <div id="modal-myejector" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myejector"></div></div></div>
+    <div id="modal-myremover" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myremover"></div></div></div>
 
-            if (body.classList.contains('lang-en')) {
-                body.classList.replace('lang-en', 'lang-pl');
-                btn.innerHTML = '🌐'; // Ikona dla wersji Polskiej (kliknij by zmienić na świat)
-            } else {
-                body.classList.replace('lang-pl', 'lang-en');
-                btn.innerHTML = '🇵🇱'; // Ikona dla wersji Angielskiej (kliknij by zmienić na PL)
-            }
+    <script>
+        function toggleMenu() {
+            if (window.innerWidth > 768) return; 
+            const nav = document.getElementById('sidebar');
+            const overlay = document.querySelector('.menu-overlay');
+            nav.classList.toggle('open');
+            overlay.style.display = nav.classList.contains('open') ? 'block' : 'none';
         }
+
+        const backToTopBtn = document.querySelector('.back-to-top');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) backToTopBtn.classList.add('visible'); else backToTopBtn.classList.remove('visible');
+            let current = '';
+            sections.forEach(section => { if (window.scrollY >= (section.offsetTop - 150)) current = section.getAttribute('id'); });
+            navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(`'${current}'`)) link.classList.add('active'); });
+        });
+
+        function smartScroll(id) {
+            const element = document.getElementById(id);
+            const blockPos = element.offsetHeight < window.innerHeight ? 'center' : 'start';
+            element.scrollIntoView({ behavior: 'smooth', block: blockPos });
+            if (window.innerWidth <= 768) { const nav = document.getElementById('sidebar'); if (nav.classList.contains('open')) toggleMenu(); }
+        }
+
+        function downloadAndScroll(filePath) {
+            smartScroll('contact');
+            setTimeout(() => {
+                const link = document.createElement('a'); link.href = filePath;
+                link.download = filePath.split('/').pop().replace(/%20/g, " ");
+                document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            }, 800);
+        }
+
+        function openModal(modalId) { updateModalContent(); document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeModal() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); document.body.style.overflow = 'auto'; }
+        function openDownloadSection(appName) { closeModal(); smartScroll('downloads'); setTimeout(() => { document.querySelectorAll('details').forEach(d => d.removeAttribute('open')); const target = document.getElementById('dl-' + appName); if(target) target.open = true; }, 600); }
+        window.onclick = function(event) { if (event.target.classList.contains('modal-overlay')) closeModal(); }
+
+        function getAppContent(langTitles, iconPath, appTitle, appCode, shortDesc, appManualContent) {
+            const btn_dl = langTitles.btn_download_now || "Pobierz Teraz";
+            const header = `<div class="modal-header"><img src="${iconPath}" class="modal-header-icon"><h2>${appTitle}</h2></div>`;
+            const staticDesc = `<div class="static-description"><h3>${langTitles.desc_label}</h3><p>${shortDesc}</p></div>`;
+            const installSection = getInstallationHTML(langTitles);
+            const dlButton = `<a onclick="openDownloadSection('${appCode}')" class="modal-download-btn">${btn_dl}</a>`;
+            return header + staticDesc + appManualContent + installSection + dlButton;
+        }
+
+        function getInstallationHTML(langTitles) {
+            const title = langTitles.install_title || "Instrukcja instalacji";
+            const step_lbl = langTitles.step_label || "Krok";
+            const step1 = langTitles.step1; const step2 = langTitles.step2; const step3 = langTitles.step3;
+            const troubleshoot = langTitles.troubleshoot; const footer = langTitles.footer;
+
+            return `
+            <details class="manual-details">
+                <summary>${title}</summary>
+                <div class="manual-inner">
+                    <div class="manual-grid">
+                        <div class="step-card">
+                            <div class="step-txt"><span class="step-title">${step_lbl} 1:</span><p class="step-desc">${step1}</p></div>
+                            <div class="step-img-container"><img src="aplikacje/Instrukcja_instalacji/Instalacja1.png" class="step-img img-fit-width"></div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-txt"><span class="step-title">${step_lbl} 2:</span><p class="step-desc">${step2}</p></div>
+                            <div class="step-img-container"><img src="aplikacje/Instrukcja_instalacji/Instalacja2.png" class="step-img img-fit-height"></div>
+                        </div>
+                        <div class="step-card horizontal-split">
+                            <div style="width: 50%; display: flex; flex-direction: column; gap: 15px;">
+                                <div class="step-txt" style="width: 100%;"><span class="step-title">${step_lbl} 3:</span><p class="step-desc">${step3}<br>Command + Space</p></div>
+                                <img src="aplikacje/Instrukcja_instalacji/Instalacja3.png" class="step-img" style="max-height: 300px; width: auto; align-self: center; border: 1px solid #444; border-radius: 8px;">
+                            </div>
+                            <div style="width: 50%; display: flex; flex-direction: column; gap: 15px; border-left: 1px solid #38383a; padding-left: 25px;">
+                                <div class="step-txt" style="width: 100%;"><span class="step-title" style="min-height: 24px;">&nbsp;</span><p class="step-desc">lub Finder -> Aplikacje</p></div>
+                                <img src="aplikacje/Instrukcja_instalacji/Instalacja4.png" class="step-img" style="max-height: 300px; width: auto; align-self: center; border: 1px solid #444; border-radius: 8px;">
+                            </div>
+                        </div>
+                        <div class="manual-full-width">${troubleshoot}</div>
+                        <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja5.png" class="step-img img-fit-height"></div></div>
+                        <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja6.png" class="step-img img-fit-height"></div></div>
+                        <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja7.png" class="step-img img-fit-height"></div></div>
+                        <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja8.png" class="step-img img-fit-height"></div></div>
+                        <div class="step-card horizontal-split">
+                             <div class="step-txt"><span class="step-title">Gotowe!</span><p class="step-desc">Aplikacja gotowa do użycia.</p></div>
+                            <div class="step-imgs-container"><img src="aplikacje/Instrukcja_instalacji/Instalacja9.png" class="step-img"></div>
+                        </div>
+                    </div>
+                    <div class="manual-footer">${footer}</div>
+                </div>
+            </details>`;
+        }
+
+        const myEjectorManualPL = `
+            <details class="manual-details">
+                <summary>O aplikacji</summary>
+                <div class="manual-inner">
+                    <div class="manual-grid">
+                        <div class="step-card special-v-layout" style="grid-column: 1 / -1;">
+                            <div class="special-top-img-container"><img src="aplikacje/myEjector/instrukcja1.png" class="special-top-img"></div>
+                            <div class="special-split-bottom">
+                                <div class="special-split-text"><p class="step-desc">myEjector to aplikacja służąca do szybkiego wysuwania/odmontowywania woluminu. Pasek menu zapewnia szybki dostęp.</p></div>
+                                <div class="special-split-img-container"><img src="aplikacje/myEjector/instrukcja2.png" class="special-split-img"></div>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-txt"><p class="step-desc">Zielona kropka znaczy, że dysk jest podłączony. Aby odmontować dysk wystarczy kliknąć w jego nazwę.</p></div>
+                            <div class="step-img-container"><img src="aplikacje/myEjector/instrukcja3.png" class="step-img img-fit-height"></div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-txt"><p class="step-desc">Aby wysunąć wolumin należy rozszerzyć menu kontekstowe. Tam również możemy dodać wolumin do ulubionych oraz go ukryć.</p></div>
+                            <div class="step-img-container"><img src="aplikacje/myEjector/instrukcja4.png" class="step-img img-fit-height"></div>
+                        </div>
+                        <div class="step-card two-col-text-only">
+                            <div><span class="step-title" style="color: var(--text-main);">Wysuwanie (Eject):</span><p class="step-desc">Sprawia, że wolumin zostanie całkowicie pozbawiony zasilania. Aby ponownie zamontować dysk należy go fizycznie odpiąć i podpiąć z powrotem.</p></div>
+                            <div><span class="step-title" style="color: var(--text-main);">Odmontowanie (Unmount):</span><p class="step-desc">Sprawia, że bezpiecznie możemy odpiąć nasz dysk, ale nie pozbawiamy go zasilania. Aby go zamontować wystarczy ponownie kliknąć w wolumin w menu aplikacji.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        `;
+
+        const myEjectorManualEN = `
+            <details class="manual-details">
+                <summary>About App</summary>
+                <div class="manual-inner">
+                    <div class="manual-grid">
+                        <div class="step-card special-v-layout" style="grid-column: 1 / -1;">
+                            <div class="special-top-img-container"><img src="aplikacje/myEjector/instrukcja1.png" class="special-top-img"></div>
+                            <div class="special-split-bottom">
+                                <div class="special-split-text"><p class="step-desc">myEjector is an app for quick volume unmounting/ejecting. Menu bar gives quick access.</p></div>
+                                <div class="special-split-img-container"><img src="aplikacje/myEjector/instrukcja2.png" class="special-split-img"></div>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-txt"><p class="step-desc">Green dot means the disk is mounted. Click name to unmount.</p></div>
+                            <div class="step-img-container"><img src="aplikacje/myEjector/instrukcja3.png" class="step-img img-fit-height"></div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-txt"><p class="step-desc">Expand context menu to eject, hide or add to favorites.</p></div>
+                            <div class="step-img-container"><img src="aplikacje/myEjector/instrukcja4.png" class="step-img img-fit-height"></div>
+                        </div>
+                        <div class="step-card two-col-text-only">
+                            <div><span class="step-title" style="color: var(--text-main);">Eject:</span><p class="step-desc">Powers off the volume completely. To remount, physically unplug and plug back in.</p></div>
+                            <div><span class="step-title" style="color: var(--text-main);">Unmount:</span><p class="step-desc">Keeps power but allows safe removal. Click volume name in app menu to remount.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        `;
+
+        const emptyManualPL = `<details class="manual-details"><summary>O aplikacji</summary><div class="manual-inner"><p>Szczegółowa instrukcja wkrótce.</p></div></details>`;
+        const emptyManualEN = `<details class="manual-details"><summary>About App</summary><div class="manual-inner"><p>Coming soon.</p></div></details>`;
+
+        const translations = {
+            en: {
+                nav_home: "Home", nav_downloads: "Downloads", nav_contact: "Contact",
+                hero_title: "Your Mac.<br>Simplified.", hero_desc: "Free apps for your Mac. No subscriptions. Tested and secure.", hero_btn: "Go to Downloads ↓",
+                btn_read_more: "Details", btn_download: "Download", btn_download_now: "Download Now",
+                contact_text: "Need a custom feature? Found a bug? Let's talk.", donate_text: "Hello. All services and apps here are fully free. Help me in further development!",
+                legal_note: "", legal_link: "Terms & Conditions",
+                install_title: "Installation Guide", desc_label: "Description",
+                step_label: "Step", step1: "Download app from get-dmg.com", step2: "Open .dmg file, drag icon to folder.", step3: "Find and run the app.", troubleshoot: "If MacOS prevents opening:", footer: "For more info contact: info@get-dmg.com",
+                col_desc: "Description", 
+                desc_multilang: "Available languages: EN, PL, DE",
+                th_ver:"Ver", th_date:"Date", th_size:"Size", th_action:"Action",
+                man_ejector: myEjectorManualEN, man_ssh: emptyManualEN, man_ip: emptyManualEN, man_remover: emptyManualEN,
+                desc_ip: "Tired of manually changing IP addresses? Change IPv4 and DNS settings with a single click!",
+                desc_ssh: "Connect remotely to network devices and backup settings. Automate your daily workflow!",
+                desc_ejector: "Safely mount and eject all volumes on your Mac. Protect your data!",
+                desc_remover: "Uninstall apps and their leftovers from your Mac!",
+                legal_full_text: `<p><strong>Donations and Support</strong></p><p>By making a financial contribution...</p>`
+            },
+            pl: {
+                nav_home: "Start", nav_downloads: "Pobieranie", nav_contact: "Kontakt",
+                hero_title: "Twój Mac<br>w lepszym wydaniu", hero_desc: "Darmowe aplikacje na twojego Maca. Bez subskrypcji. Sprawdzone i bezpieczne.", hero_btn: "Pobierz ↓",
+                btn_read_more: "Szczegóły", btn_download: "Pobierz", btn_download_now: "Pobierz Teraz",
+                contact_text: "Masz pomysł? Znalazłeś błąd? Napisz.", donate_text: "Klikając poniżej, wspierasz rozwój aplikacji OPEN-SOURCE.",
+                legal_note: "", legal_link: "Regulamin i Warunki",
+                install_title: "Instrukcja instalacji", desc_label: "Opis",
+                step_label: "Krok", step1: "Pobierz aplikację - get-dmg.com", step2: "Uruchom .dmg, przeciągnij ikonę.", step3: "Znajdź i uruchom aplikację.", troubleshoot: "Jeżeli MacOS nie pozwala uruchomić:", footer: "Więcej informacji: info@get-dmg.com",
+                col_desc: "Opis", 
+                desc_multilang: "Dostępne języki: EN, PL, DE",
+                th_ver:"Wer", th_date:"Data", th_size:"Rozmiar", th_action:"Akcja",
+                man_ejector: myEjectorManualPL, man_ssh: emptyManualPL, man_ip: emptyManualPL, man_remover: emptyManualPL,
+                desc_ip: "Jeżeli męczy Cię ciągłe, ręczne zmienianie adresu IP, ta aplikacja jest dla Ciebie! Zmieniaj IPv4 i DNS jednym kliknięciem.",
+                desc_ssh: "Łącz się zdalnie do urządzeń sieciowych i twórz kopie zapasowe. Zautomatyzuj codzienne czynności!",
+                desc_ejector: "Bezpiecznie montuj i wysuwaj wszystkie woluminy na swoim Macu. Dbaj o swoje dane!",
+                desc_remover: "Odinstaluj z Maca aplikacje i pozostałości po niej!",
+                legal_full_text: `<p><strong>Wsparcie i Darowizny</strong></p><p>Przekazując wsparcie finansowe...</p>`
+            },
+            de: {
+                nav_home: "Start", btn_read_more: "Details", install_title: "Installationsanleitung", desc_label: "Beschreibung",
+                man_ejector: myEjectorManualEN, man_ssh: emptyManualEN, man_ip: emptyManualEN, man_remover: emptyManualEN,
+                desc_ejector: "Laufwerke sicher auswerfen.", desc_ssh: "SSH-Manager.", desc_ip: "Netzwerkadapter-Konfigurator.", desc_remover: "Apps deinstallieren.",
+                desc_multilang: "Verfügbare Sprachen: EN, PL, DE"
+            },
+            es: {
+                nav_home: "Inicio", btn_read_more: "Detalles", install_title: "Instalación", desc_label: "Descripción",
+                desc_multilang: "Idiomas disponibles: EN, PL, DE"
+            },
+            it: {
+                nav_home: "Home", btn_read_more: "Dettagli", install_title: "Installazione", desc_label: "Descrizione",
+                desc_multilang: "Lingue disponibili: EN, PL, DE"
+            },
+            fr: {
+                nav_home: "Accueil", btn_read_more: "Détails", install_title: "Installation", desc_label: "Description",
+                desc_multilang: "Langues disponibles : EN, PL, DE"
+            },
+            pt: {
+                nav_home: "Início", btn_read_more: "Detalhes", install_title: "Instalação", desc_label: "Descrição",
+                desc_multilang: "Idiomas disponíveis: EN, PL, DE"
+            },
+            ua: {
+                nav_home: "Головна", btn_read_more: "Деталі", install_title: "Встановлення", desc_label: "Опис",
+                desc_multilang: "Доступні мови: EN, PL, DE"
+            },
+            ru: {
+                nav_home: "Главная", btn_read_more: "Подробнее", install_title: "Установка", desc_label: "Описание",
+                desc_multilang: "Доступные языки: EN, PL, DE"
+            }
+        };
+
+        function updateModalContent(lang) {
+            if (!lang) lang = document.documentElement.lang || 'en';
+            const t = translations[lang] || translations['en']; 
+            document.querySelector('[data-app="myejector"]').innerHTML = getAppContent(t, "Ikony aplikacji/myEjector/myEjector.png", "myEjector", "myejector", t.desc_ejector, t.man_ejector);
+            document.querySelector('[data-app="myssh"]').innerHTML = getAppContent(t, "Ikony aplikacji/mySSH/mySSH.png", "mySSH", "myssh", t.desc_ssh, t.man_ssh);
+            document.querySelector('[data-app="myip"]').innerHTML = getAppContent(t, "Ikony aplikacji/myIP/myIP.jpg", "myIP", "myip", t.desc_ip, t.man_ip);
+            document.querySelector('[data-app="myremover"]').innerHTML = getAppContent(t, "Ikony aplikacji/myRemover/myRemover.png", "myRemover", "myremover", t.desc_remover, t.man_remover);
+        }
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
+                else if (translations['en'][key]) el.innerHTML = translations['en'][key];
+            });
+            updateModalContent(lang); document.getElementById('language-picker').value = lang;
+        }
+
+        function detectLanguage() {
+            const userLang = navigator.language || navigator.userLanguage; 
+            const langCode = userLang.substring(0, 2).toLowerCase();
+            if (translations[langCode]) setLanguage(langCode); else setLanguage('en');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { detectLanguage(); });
     </script>
 </body>
 </html>
