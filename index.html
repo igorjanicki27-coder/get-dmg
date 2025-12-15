@@ -169,16 +169,11 @@
         }
         .contact-logo { width: 150px; height: auto; margin-bottom: 25px; pointer-events: none; }
         .contact-box p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 15px; }
-        .donate-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            background-color: var(--coffee-color); color: white; padding: 12px 30px;
-            border-radius: 30px; font-weight: 600; font-size: 1rem;
-            text-decoration: none; margin: 10px 0; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3);
-        }
-        .donate-btn:hover { background-color: var(--coffee-hover); transform: translateY(-3px); }
+        
         .legal-line {
-            font-size: 0.75rem; color: #555; max-width: 500px; margin-top: 20px; line-height: 1.4;
+            font-size: 0.75rem; color: #555; max-width: 500px; 
+            margin-top: 5px; 
+            line-height: 1.4;
             display: flex; justify-content: center;
         }
         .legal-link { color: var(--text-muted); text-decoration: underline; cursor: pointer; }
@@ -357,7 +352,10 @@
             <li><a onclick="smartScroll('myip')" class="nav-link nav-sub">myIP</a></li>
             <li><a onclick="smartScroll('myssh')" class="nav-link nav-sub">mySSH</a></li>
             <li><a onclick="smartScroll('myejector')" class="nav-link nav-sub">myEjector</a></li>
+            
+            <li><a onclick="smartScroll('mydesktop')" class="nav-link nav-sub">myDesktop</a></li>
             <li><a onclick="smartScroll('myremover')" class="nav-link nav-sub">myRemover</a></li>
+            
             <li style="margin-top: 20px;"><a onclick="smartScroll('downloads')" class="nav-link nav-main" data-i18n="nav_downloads">Downloads</a></li>
             <li><a onclick="smartScroll('contact')" class="nav-link nav-main" data-i18n="nav_contact">Contact</a></li>
         </ul>
@@ -396,6 +394,13 @@
             </div>
         </section>
 
+        <section id="mydesktop">
+            <div class="app-card">
+                <img src="Ikony aplikacji/myDesktop/myDesktop.png" alt="myDesktop" class="app-icon-img">
+                <div class="app-card-content"><h2>myDesktop</h2><button class="btn-more" onclick="openModal('modal-mydesktop')" data-i18n="btn_read_more">Więcej</button></div>
+            </div>
+        </section>
+
         <section id="myremover">
             <div class="app-card">
                 <img src="Ikony aplikacji/myRemover/myRemover.png" alt="myRemover" class="app-icon-img">
@@ -421,6 +426,11 @@
                     <tr><td>v1.0</td><td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td><td>2023-12-05</td><td>4 MB</td><td><a onclick="downloadAndScroll('aplikacje/myEjector/myEjector_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td></tr>
                 </table></details>
 
+                <details id="dl-mydesktop"><summary>myDesktop</summary><table class="version-table">
+                    <tr><th data-i18n="th_ver">Ver</th><th data-i18n="col_desc" class="desc-col">Description</th><th data-i18n="th_date">Date</th><th data-i18n="th_size">Size</th><th data-i18n="th_action">Action</th></tr>
+                    <tr><td>v1.0</td><td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td><td>2024-03-20</td><td>6 MB</td><td><a onclick="downloadAndScroll('aplikacje/myDesktop/myDesktop_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td></tr>
+                </table></details>
+
                 <details id="dl-myremover"><summary>myRemover</summary><table class="version-table">
                     <tr><th data-i18n="th_ver">Ver</th><th data-i18n="col_desc" class="desc-col">Description</th><th data-i18n="th_date">Date</th><th data-i18n="th_size">Size</th><th data-i18n="th_action">Action</th></tr>
                     <tr><td>v1.0</td><td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td><td>2024-02-15</td><td>5 MB</td><td><a onclick="downloadAndScroll('aplikacje/myRemover/myRemover_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td></tr>
@@ -431,11 +441,27 @@
         <section id="contact">
             <div class="contact-card">
                 <img src="logo.png" alt="Logo" class="contact-logo">
-                <h2 data-i18n="nav_contact" style="margin-bottom: 20px;">Contact</h2>
                 <p data-i18n="donate_text">Hello. All services and apps you found here are fully free...</p>
-                <a href="https://stripe.com" target="_blank" class="donate-btn"><span>☕ Coffee for Igor</span></a>
+                
+                <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+                
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px; margin-bottom: 5px;">
+                    <stripe-buy-button
+                      buy-button-id="buy_btn_1SeJiTE1a4CoiVfzRMdHD5NF"
+                      publishable-key="pk_live_51SdoS1E1a4CoiVfzWKlsvJAuw7xkfZWBk2DmnN7WE87GEAwaxwFwb2nnsJOq5ZRm3DTLPX8H7sOOnkKECrheJ2hV00txPlTGCE"
+                    >
+                    </stripe-buy-button>
+
+                    <stripe-buy-button
+                      buy-button-id="buy_btn_1SeJbOE1a4CoiVfz7PbE7Ito"
+                      publishable-key="pk_live_51SdoS1E1a4CoiVfzWKlsvJAuw7xkfZWBk2DmnN7WE87GEAwaxwFwb2nnsJOq5ZRm3DTLPX8H7sOOnkKECrheJ2hV00txPlTGCE"
+                    >
+                    </stripe-buy-button>
+                </div>
+
                 <div class="legal-line"><a onclick="openModal('modal-terms')" class="legal-link" data-i18n="legal_link">Terms & Conditions</a></div>
                 <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; width: 100%; color: var(--text-muted);">
+                    <h2 data-i18n="nav_contact" style="margin-bottom: 15px; color: var(--text-main);">Contact</h2>
                     <p data-i18n="contact_text" style="margin-bottom: 10px;">Need a custom feature? Found a bug? Let's talk.</p>
                     <p style="margin-bottom:0; font-size: 1.1rem;">Igor Janicki <a href="mailto:info@get-dmg.com" style="color: inherit; text-decoration: underline; font-weight: bold; margin-left: 5px;">info@get-dmg.com</a></p>
                 </div>
@@ -448,6 +474,7 @@
     <div id="modal-myip" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myip"></div></div></div>
     <div id="modal-myssh" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myssh"></div></div></div>
     <div id="modal-myejector" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myejector"></div></div></div>
+    <div id="modal-mydesktop" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="mydesktop"></div></div></div>
     <div id="modal-myremover" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myremover"></div></div></div>
 
     <script>
@@ -616,35 +643,37 @@
                 col_desc: "Description", 
                 desc_multilang: "Available languages: EN, PL, DE",
                 th_ver:"Ver", th_date:"Date", th_size:"Size", th_action:"Action",
-                man_ejector: myEjectorManualEN, man_ssh: emptyManualEN, man_ip: emptyManualEN, man_remover: emptyManualEN,
+                man_ejector: myEjectorManualEN, man_ssh: emptyManualEN, man_ip: emptyManualEN, man_remover: emptyManualEN, man_desktop: emptyManualEN,
                 desc_ip: "Tired of manually changing IP addresses? Change IPv4 and DNS settings with a single click!",
                 desc_ssh: "Connect remotely to network devices and backup settings. Automate your daily workflow!",
                 desc_ejector: "Safely mount and eject all volumes on your Mac. Protect your data!",
                 desc_remover: "Uninstall apps and their leftovers from your Mac!",
+                desc_desktop: "Manage your desktop and windows simply.",
                 legal_full_text: `<p><strong>Donations and Support</strong></p><p>By making a financial contribution...</p>`
             },
             pl: {
                 nav_home: "Start", nav_downloads: "Pobieranie", nav_contact: "Kontakt",
                 hero_title: "Twój Mac<br>w lepszym wydaniu", hero_desc: "Darmowe aplikacje na twojego Maca. Bez subskrypcji. Sprawdzone i bezpieczne.", hero_btn: "Pobierz ↓",
                 btn_read_more: "Szczegóły", btn_download: "Pobierz", btn_download_now: "Pobierz Teraz",
-                contact_text: "Masz pomysł? Znalazłeś błąd? Napisz.", donate_text: "Klikając poniżej, wspierasz rozwój aplikacji OPEN-SOURCE.",
+                contact_text: "Masz pomysł? Znalazłeś błąd? Napisz.", donate_text: "To dzięki Tobie możemy się rozwijać.",
                 legal_note: "", legal_link: "Regulamin i Warunki",
                 install_title: "Instrukcja instalacji", desc_label: "Opis",
                 step_label: "Krok", step1: "Pobierz aplikację - get-dmg.com", step2: "Uruchom .dmg, przeciągnij ikonę.", step3: "Znajdź i uruchom aplikację.", troubleshoot: "Jeżeli MacOS nie pozwala uruchomić:", footer: "Więcej informacji: info@get-dmg.com",
                 col_desc: "Opis", 
                 desc_multilang: "Dostępne języki: EN, PL, DE",
                 th_ver:"Wer", th_date:"Data", th_size:"Rozmiar", th_action:"Akcja",
-                man_ejector: myEjectorManualPL, man_ssh: emptyManualPL, man_ip: emptyManualPL, man_remover: emptyManualPL,
+                man_ejector: myEjectorManualPL, man_ssh: emptyManualPL, man_ip: emptyManualPL, man_remover: emptyManualPL, man_desktop: emptyManualPL,
                 desc_ip: "Jeżeli męczy Cię ciągłe, ręczne zmienianie adresu IP, ta aplikacja jest dla Ciebie! Zmieniaj IPv4 i DNS jednym kliknięciem.",
                 desc_ssh: "Łącz się zdalnie do urządzeń sieciowych i twórz kopie zapasowe. Zautomatyzuj codzienne czynności!",
                 desc_ejector: "Bezpiecznie montuj i wysuwaj wszystkie woluminy na swoim Macu. Dbaj o swoje dane!",
                 desc_remover: "Odinstaluj z Maca aplikacje i pozostałości po niej!",
+                desc_desktop: "Zarządzaj swoim biurkiem i oknami w prosty sposób.",
                 legal_full_text: `<p><strong>Wsparcie i Darowizny</strong></p><p>Przekazując wsparcie finansowe...</p>`
             },
             de: {
                 nav_home: "Start", btn_read_more: "Details", install_title: "Installationsanleitung", desc_label: "Beschreibung",
-                man_ejector: myEjectorManualEN, man_ssh: emptyManualEN, man_ip: emptyManualEN, man_remover: emptyManualEN,
-                desc_ejector: "Laufwerke sicher auswerfen.", desc_ssh: "SSH-Manager.", desc_ip: "Netzwerkadapter-Konfigurator.", desc_remover: "Apps deinstallieren.",
+                man_ejector: myEjectorManualEN, man_ssh: emptyManualEN, man_ip: emptyManualEN, man_remover: emptyManualEN, man_desktop: emptyManualEN,
+                desc_ejector: "Laufwerke sicher auswerfen.", desc_ssh: "SSH-Manager.", desc_ip: "Netzwerkadapter-Konfigurator.", desc_remover: "Apps deinstallieren.", desc_desktop: "Desktop-Manager.",
                 desc_multilang: "Verfügbare Sprachen: EN, PL, DE"
             },
             es: {
@@ -680,6 +709,7 @@
             document.querySelector('[data-app="myssh"]').innerHTML = getAppContent(t, "Ikony aplikacji/mySSH/mySSH.png", "mySSH", "myssh", t.desc_ssh, t.man_ssh);
             document.querySelector('[data-app="myip"]').innerHTML = getAppContent(t, "Ikony aplikacji/myIP/myIP.jpg", "myIP", "myip", t.desc_ip, t.man_ip);
             document.querySelector('[data-app="myremover"]').innerHTML = getAppContent(t, "Ikony aplikacji/myRemover/myRemover.png", "myRemover", "myremover", t.desc_remover, t.man_remover);
+            document.querySelector('[data-app="mydesktop"]').innerHTML = getAppContent(t, "Ikony aplikacji/myDesktop/myDesktop.png", "myDesktop", "mydesktop", t.desc_desktop, t.man_desktop);
         }
 
         function setLanguage(lang) {
