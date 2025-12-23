@@ -27,7 +27,6 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
-            display: flex;
             min-height: 100vh;
             position: relative;
         }
@@ -167,7 +166,7 @@
 
         @media (min-width: 769px) { .menu-overlay { display: none !important; } }
 
-        main { margin-left: 260px; width: 100%; position: relative; }
+        main { margin-left: 260px; width: calc(100% - 260px); position: relative; }
 
         section {
             padding: 60px 40px;
@@ -247,19 +246,96 @@
         h1 { font-size: 3.5rem; margin: 0 0 20px 0; font-weight: 700; line-height: 1.1; }
         p.desc { font-size: 1.2rem; line-height: 1.6; color: var(--text-muted); max-width: 700px; margin-bottom: 30px; }
 
-        .download-list { width: 100%; max-width: 1000px; margin-top: 20px; }
-        .download-list details { background: var(--card-bg); margin-bottom: 10px; border-radius: 10px; border: 1px solid var(--border-color); overflow: hidden; }
-        .download-list summary { padding: 15px 20px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; list-style: none; }
-        .download-list summary::after { content: '+'; font-size: 1.5rem; color: var(--accent-color); }
-        .download-list details[open] summary::after { content: '-'; }
+        /* Downloads */
+        .download-list {
+            width: 100%;
+            max-width: 860px;
+            margin: 18px auto 0 auto;
+            padding: 18px;
+            background: linear-gradient(145deg, #1c1c1e, #151516);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+        }
+
+        .download-list summary { list-style: none; }
+        .download-list summary::-webkit-details-marker { display: none; }
+
+        /* Top-level groups: Autorskie / Polecane */
+        .download-list > details {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .download-list > details:last-child { margin-bottom: 0; }
+        .download-list > details > summary {
+            padding: 18px 18px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-main);
+        }
+
+        /* Inner app accordions */
+        .download-list > details > details {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            margin: 12px 14px;
+            overflow: hidden;
+        }
+        .download-list > details > details > summary {
+            padding: 16px 16px;
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Chevron indicator (replaces +/-) */
+        .download-list details > summary::after {
+            content: '›';
+            font-size: 1.8rem;
+            line-height: 1;
+            color: rgba(10,132,255,0.95);
+            transform: rotate(0deg);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            opacity: 0.95;
+        }
+        .download-list details[open] > summary::after { transform: rotate(90deg); }
+
+        .download-list > details > summary:hover,
+        .download-list > details > details > summary:hover {
+            background: rgba(255,255,255,0.03);
+        }
 
         .version-table { width: 100%; border-collapse: collapse; }
-        .version-table td, .version-table th { padding: 12px 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); text-align: left; font-size: 0.95rem; }
-        .version-table th { color: #fff; text-transform: uppercase; font-size: 0.75rem; }
+        .version-table td, .version-table th {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-muted);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .version-table th {
+            color: rgba(255,255,255,0.85);
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+        }
 
         .download-link { color: var(--accent-color); font-weight: bold; text-decoration: none; cursor: pointer; }
         .download-link:hover { text-decoration: underline; }
         .download-soon { color: var(--text-muted); font-weight: 700; }
+
+        #downloads { align-items: center; }
+        #downloads .section-header { max-width: 860px; width: 100%; }
 
         #contact { text-align: center; align-items: center; padding-top: 80px; padding-bottom: 80px; }
 
@@ -280,6 +356,17 @@
         .legal-line { font-size: 0.75rem; color: #555; max-width: 500px; margin-top: 5px; line-height: 1.4; display: flex; justify-content: center; }
         .legal-link { color: var(--text-muted); text-decoration: underline; cursor: pointer; }
         .legal-link:hover { color: var(--accent-color); }
+
+        .stats-footer {
+            width: 100%;
+            padding: 18px 20px 28px 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.75rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .stats-footer strong { color: #777; font-weight: 700; }
+        .stats-footer .sep { opacity: 0.5; margin: 0 10px; }
 
         .back-to-top {
             position: fixed;
@@ -444,7 +531,7 @@
             <li><a onclick="smartScroll('myip')" class="nav-link nav-sub">myIP</a></li>
             <li><a onclick="smartScroll('myssh')" class="nav-link nav-sub soon">mySSH <span class="soon-inline" data-i18n="btn_soon">Wkrótce</span></a></li>
             <li><a onclick="smartScroll('myejector')" class="nav-link nav-sub">myEjector</a></li>
-            <li><a onclick="smartScroll('myresolution')" class="nav-link nav-sub soon">myResolution <span class="soon-inline" data-i18n="btn_soon">Wkrótce</span></a></li>
+            <li><a onclick="smartScroll('mydisplay')" class="nav-link nav-sub">myDisplay</a></li>
 
             <li class="nav-group" data-i18n="nav_group_recommended">Polecane</li>
             <li><a onclick="smartScroll('recommended')" class="nav-link nav-sub soon" data-i18n="nav_recommended_placeholder">Wkrótce</a></li>
@@ -505,12 +592,12 @@
             </div>
         </section>
 
-        <section id="myresolution">
-            <div class="app-card soon">
-                <img src="logo.png" alt="myResolution" class="app-icon-img">
+        <section id="mydisplay">
+            <div class="app-card">
+                <img src="Ikony aplikacji/myDisplay/myDisplay.png" alt="myDisplay" class="app-icon-img">
                 <div class="app-card-content">
-                    <h2>myResolution</h2>
-                    <button class="btn-more" onclick="openModal('modal-myresolution')" data-i18n="btn_soon">Wkrótce</button>
+                    <h2>myDisplay</h2>
+                    <button class="btn-more" onclick="openModal('modal-mydisplay')" data-i18n="btn_read_more">Więcej</button>
                 </div>
             </div>
         </section>
@@ -523,7 +610,10 @@
         </section>
 
         <section id="downloads">
-            <h2 data-i18n="nav_downloads">Download Center</h2>
+            <div class="section-header">
+                <h2 data-i18n="nav_downloads">Download Center</h2>
+                <p data-i18n="downloads_desc">Wybierz aplikację i pobierz DMG.</p>
+            </div>
             <div class="download-list">
                 <details id="dl-author" open>
                     <summary data-i18n="downloads_author_title">Autorskie</summary>
@@ -540,7 +630,7 @@
                             </tr>
                             <tr>
                                 <td>v1.0</td>
-                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE, UA</td>
+                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td>
                                 <td>2023-11-20</td>
                                 <td>8 MB</td>
                                 <td><a onclick="downloadAndScroll('aplikacje/myIP/myIP_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td>
@@ -580,7 +670,7 @@
                             </tr>
                             <tr>
                                 <td>v1.0</td>
-                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE, UA</td>
+                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td>
                                 <td>2023-12-05</td>
                                 <td>4 MB</td>
                                 <td><a onclick="downloadAndScroll('aplikacje/myEjector/myEjector_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td>
@@ -588,8 +678,8 @@
                         </table>
                     </details>
 
-                    <details id="dl-author-myresolution">
-                        <summary>myResolution</summary>
+                    <details id="dl-author-mydisplay">
+                        <summary>myDisplay</summary>
                         <table class="version-table">
                             <tr>
                                 <th data-i18n="th_ver">Ver</th>
@@ -599,11 +689,11 @@
                                 <th data-i18n="th_action">Action</th>
                             </tr>
                             <tr>
-                                <td data-i18n="soon_inline">Soon</td>
-                                <td class="desc-col" data-i18n="desc_resolution_soon_row">Coming soon</td>
-                                <td>—</td>
-                                <td>—</td>
-                                <td><span class="download-soon" data-i18n="btn_soon">Coming soon</span></td>
+                                <td>v1.0</td>
+                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td>
+                                <td>2025-12-23</td>
+                                <td>2.04 MB</td>
+                                <td><a onclick="downloadAndScroll('aplikacje/myDisplay/myDisplay_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td>
                             </tr>
                         </table>
                     </details>
@@ -640,6 +730,12 @@
                 </div>
             </div>
         </section>
+
+        <footer class="stats-footer">
+            <span data-i18n="stats_visits">Visits</span>: <strong id="stats-visits">—</strong>
+            <span class="sep">•</span>
+            <span data-i18n="stats_downloads">Downloads</span>: <strong id="stats-downloads">—</strong>
+        </footer>
     </main>
 
     <div id="modal-terms" class="modal-overlay">
@@ -653,7 +749,7 @@
     <div id="modal-myip" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myip"></div></div></div>
     <div id="modal-myssh" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myssh"></div></div></div>
     <div id="modal-myejector" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myejector"></div></div></div>
-    <div id="modal-myresolution" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="myresolution"></div></div></div>
+    <div id="modal-mydisplay" class="modal-overlay"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><div class="app-instruction-content" data-app="mydisplay"></div></div></div>
 
     <script>
         function toggleMenu() {
@@ -695,6 +791,8 @@
         }
 
         function downloadAndScroll(filePath) {
+            // Licznik kliknięć "Pobierz" (szacunkowo)
+            incrementDownloads();
             smartScroll('contact');
             setTimeout(() => {
                 const link = document.createElement('a');
@@ -740,9 +838,60 @@
             const btnText = isSoon ? (langTitles.btn_soon || 'Wkrótce') : (langTitles.btn_download_now || 'Pobierz teraz');
             const header = `<div class="modal-header"><img src="${iconPath}" class="modal-header-icon" alt=""><h2>${appTitle}</h2></div>`;
             const staticDesc = `<div class="static-description"><h3>${langTitles.desc_label}</h3><p>${shortDesc}</p></div>`;
-            const installSection = isSoon ? '' : getInstallationHTML(langTitles);
+            const instructionsSection = getInstructionsHTML(langTitles);
             const dlButton = isSoon ? `<a class="modal-download-btn disabled">${btnText}</a>` : `<a onclick="openDownloadSection('${appCode}')" class="modal-download-btn">${btnText}</a>`;
-            return header + staticDesc + appManualContent + installSection + dlButton;
+            return header + staticDesc + appManualContent + instructionsSection + dlButton;
+        }
+
+        function getAutostartHTML(langTitles) {
+            const title = langTitles.autostart_title;
+            const desc = langTitles.autostart_desc;
+            return `
+                <details class="manual-details">
+                    <summary>${title}</summary>
+                    <div class="manual-inner">
+                        <div class="manual-grid">
+                            <div class="step-card" style="grid-column: 1 / -1;">
+                                <div class="step-txt"><p class="step-desc">${desc}</p></div>
+                                <div class="step-img-container" style="height: auto; padding: 20px;">
+                                    <img src="aplikacje/Instrukcja_instalacji/Instrukcja_start1.png" class="step-img img-fit-width" alt="" onerror="this.style.display='none'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>`;
+        }
+
+        function getComputerControlHTML(langTitles) {
+            const title = langTitles.control_title;
+            const desc = langTitles.control_desc;
+            return `
+                <details class="manual-details">
+                    <summary>${title}</summary>
+                    <div class="manual-inner">
+                        <div class="manual-grid">
+                            <div class="step-card" style="grid-column: 1 / -1;">
+                                <div class="step-txt"><p class="step-desc">${desc}</p></div>
+                                <div class="step-img-container" style="height: auto; padding: 20px;">
+                                    <img src="aplikacje/Instrukcja_instalacji/Instrukcja_dostep1.png" class="step-img img-fit-width" alt="" onerror="this.style.display='none'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>`;
+        }
+
+        function getInstructionsHTML(langTitles) {
+            const title = langTitles.instructions_title;
+            return `
+                <details class="manual-details">
+                    <summary>${title}</summary>
+                    <div class="manual-inner">
+                        ${getInstallationHTML(langTitles)}
+                        ${getAutostartHTML(langTitles)}
+                        ${getComputerControlHTML(langTitles)}
+                    </div>
+                </details>`;
         }
 
         function generateMyIPManual(t) {
@@ -826,11 +975,32 @@
                 </div>`;
         }
 
-        function generateResolutionManual(t) {
+        function generateDisplayManual(t) {
+            const list1 = (t.display_i1 || []).map((x) => `<li>${x}</li>`).join('');
+            const list2 = (t.display_i2 || []).map((x) => `<li>${x}</li>`).join('');
+
             return `
                 <div class="manual-grid">
                     <div class="step-card" style="grid-column: 1 / -1;">
-                        <div class="step-txt"><p class="step-desc">${t.resolution_soon}</p></div>
+                        <div class="step-txt">
+                            <span class="step-title">${t.display_title_1}</span>
+                            <p class="step-desc">${t.display_desc_1}</p>
+                            <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; padding-left: 20px; margin: 12px 0 0 0;">${list1}</ul>
+                        </div>
+                        <div class="step-img-container" style="height: auto; padding: 20px;">
+                            <img src="aplikacje/myDisplay/Instrukcja1.png" class="step-img img-fit-width" alt="">
+                        </div>
+                    </div>
+
+                    <div class="step-card" style="grid-column: 1 / -1;">
+                        <div class="step-txt">
+                            <span class="step-title">${t.display_title_2}</span>
+                            <p class="step-desc">${t.display_desc_2}</p>
+                            <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; padding-left: 20px; margin: 12px 0 0 0;">${list2}</ul>
+                        </div>
+                        <div class="step-img-container" style="height: auto; padding: 20px;">
+                            <img src="aplikacje/myDisplay/Instrukcja2.png" class="step-img img-fit-width" alt="">
+                        </div>
                     </div>
                 </div>`;
         }
@@ -898,7 +1068,24 @@
                 ej_menu: "Expand context menu to eject, hide or add to favorites.",
                 ej_ej: "Eject:", ej_ej_d: "Powers off the volume completely. To remount, physically unplug and plug back in.",
                 ej_un: "Unmount:", ej_un_d: "Keeps power but allows safe removal. Click volume name in app menu to remount.",
-                resolution_soon: "myResolution is in active development. Coming soon."
+                display_title_1: "Main screen",
+                display_desc_1: "How to use the main functions:",
+                display_i1: [
+                    "Display selection",
+                    "Favorite resolution selection",
+                    "Prevent Mac sleep",
+                    "Minimize open app windows",
+                    "Settings"
+                ],
+                display_title_2: "Settings",
+                display_desc_2: "What you can configure:",
+                display_i2: [
+                    "Assign keyboard shortcuts to functions",
+                    "Change language",
+                    "Choose display",
+                    "Temporarily prevent Mac sleep",
+                    "Available resolutions"
+                ]
             },
             pl: {
                 ssh_soon: "mySSH jest w trakcie tworzenia. Wkrótce.",
@@ -913,7 +1100,24 @@
                 ej_menu: "Aby wysunąć wolumin należy rozszerzyć menu kontekstowe.",
                 ej_ej: "Wysuwanie (Eject):", ej_ej_d: "Wolumin zostanie całkowicie pozbawiony zasilania. Aby ponownie zamontować – odepnij i podepnij urządzenie.",
                 ej_un: "Odmontowanie (Unmount):", ej_un_d: "Bezpieczne odłączenie bez odcinania zasilania. Aby zamontować ponownie, kliknij w menu aplikacji.",
-                resolution_soon: "myResolution jest w trakcie intensywnego rozwoju. Wkrótce."
+                display_title_1: "Ekran główny",
+                display_desc_1: "Jak korzystać z głównych funkcji:",
+                display_i1: [
+                    "Wybór wyświetlacza",
+                    "Wybór ulubionej rozdzielczości",
+                    "Zapobieganie uśpieniu Maca",
+                    "Minimalizacja otwartych okien aplikacji",
+                    "Ustawienia"
+                ],
+                display_title_2: "Ustawienia",
+                display_desc_2: "Co można skonfigurować:",
+                display_i2: [
+                    "Przypisywanie skrótów klawiszowych do funkcji",
+                    "Zmiana języka",
+                    "Wybór wyświetlacza",
+                    "Czasowe zapobieganie uśpieniu Maca",
+                    "Dostępne rozdzielczości"
+                ]
             },
             de: {
                 ssh_soon: "mySSH ist in Entwicklung. Demnächst.",
@@ -928,7 +1132,24 @@
                 ej_menu: "Kontextmenü erweitern, um auszuwerfen, auszublenden oder zu Favoriten hinzuzufügen.",
                 ej_ej: "Auswerfen (Eject):", ej_ej_d: "Schaltet das Volume vollständig aus. Zum erneuten Mounten physisch aus- und wieder einstecken.",
                 ej_un: "Unmount:", ej_un_d: "Behält Strom, erlaubt aber sicheres Entfernen. Zum Remount im App-Menü klicken.",
-                resolution_soon: "myResolution befindet sich in aktiver Entwicklung. Demnächst."
+                display_title_1: "Hauptbildschirm",
+                display_desc_1: "So nutzt du die Hauptfunktionen:",
+                display_i1: [
+                    "Anzeige auswählen",
+                    "Lieblingsauflösung auswählen",
+                    "Mac am Ruhezustand hindern",
+                    "Offene App-Fenster minimieren",
+                    "Einstellungen"
+                ],
+                display_title_2: "Einstellungen",
+                display_desc_2: "Was du konfigurieren kannst:",
+                display_i2: [
+                    "Tastenkürzel den Funktionen zuweisen",
+                    "Sprache ändern",
+                    "Anzeige auswählen",
+                    "Ruhezustand zeitweise verhindern",
+                    "Verfügbare Auflösungen"
+                ]
             },
             ua: {
                 ssh_soon: "mySSH активно розробляється. Незабаром.",
@@ -943,7 +1164,24 @@
                 ej_menu: "Розширте меню для вилучення, приховання або додавання в обране.",
                 ej_ej: "Вилучити (Eject):", ej_ej_d: "Повністю вимикає том. Для монтування підключіть знову.",
                 ej_un: "Розмонтувати:", ej_un_d: "Дозволяє безпечне вилучення без відключення живлення. Натисніть у меню, щоб змонтувати знову.",
-                resolution_soon: "myResolution активно розробляється. Незабаром."
+                display_title_1: "Головний екран",
+                display_desc_1: "Як користуватися основними функціями:",
+                display_i1: [
+                    "Вибір дисплея",
+                    "Вибір улюбленої роздільної здатності",
+                    "Запобігання переходу Mac у сон",
+                    "Мінімізація відкритих вікон програм",
+                    "Налаштування"
+                ],
+                display_title_2: "Налаштування",
+                display_desc_2: "Що можна налаштувати:",
+                display_i2: [
+                    "Призначення гарячих клавіш для функцій",
+                    "Зміна мови",
+                    "Вибір дисплея",
+                    "Тимчасове запобігання переходу Mac у сон",
+                    "Доступні роздільні здатності"
+                ]
             }
         };
 
@@ -960,9 +1198,17 @@
                 hero_title: "Your Mac.<br>Simplified.", hero_desc: "Free apps for your Mac. No subscriptions, microtransactions or registration.", hero_btn: "Go to Downloads ↓",
                 btn_read_more: "Details", btn_download: "Download", btn_download_now: "Download Now", btn_soon: "Coming soon",
                 downloads_author_title: "Original", downloads_recommended_title: "Recommended", downloads_recommended_placeholder: "Recommended apps will appear here soon.",
+                downloads_desc: "Pick an app and download the DMG.",
                 th_ver: "Ver", th_date: "Date", th_size: "Size", th_action: "Action", col_desc: "Description",
-                desc_multilang: "Available languages: EN, PL, DE, UA",
+                desc_multilang: "Available languages: EN, PL, DE",
                 desc_label: "Description",
+                stats_visits: "Visits",
+                stats_downloads: "Downloads",
+                instructions_title: "Instructions",
+                autostart_title: "Autostart on login",
+                autostart_desc: "To start the app automatically when you log in, go to Settings → General → Login Items & Extensions, then add the app by dragging it from Finder (or using the plus button). Make sure the toggle is switched on.",
+                control_title: "Computer control permissions",
+                control_desc: "To allow the app to control your computer (ejecting disks, keyboard shortcuts, etc.), grant permissions in Settings → Privacy & Security → Accessibility. Add the app by dragging it from Finder (or using the plus button). Make sure the toggle is switched on.",
                 install_title: "Installation Guide", step_label: "Step",
                 step1: "Download app from get-dmg.com",
                 step2: "Open .dmg file, drag icon to folder.",
@@ -980,8 +1226,7 @@
                 desc_ejector: "Safely mount and eject all volumes on your Mac. Protect your data!",
                 desc_ssh_soon: "mySSH is in development. Coming soon.",
                 desc_ssh_soon_row: "Coming soon",
-                desc_resolution_soon: "myResolution is in development. Coming soon.",
-                desc_resolution_soon_row: "Coming soon",
+                desc_display: "myDisplay lets you change resolution with display selection, quickly minimize windows to the desktop, and prevent your Mac from sleeping.",
                 soon_inline: "Soon"
             },
             pl: {
@@ -996,9 +1241,17 @@
                 hero_title: "Twój Mac<br>w lepszym wydaniu", hero_desc: "Darmowe aplikacje na twojego Maca. Bez subskrypcji, mikropłatności i rejestracji.", hero_btn: "Pobierz ↓",
                 btn_read_more: "Szczegóły", btn_download: "Pobierz", btn_download_now: "Pobierz teraz", btn_soon: "Wkrótce",
                 downloads_author_title: "Autorskie", downloads_recommended_title: "Polecane", downloads_recommended_placeholder: "Wkrótce pojawią się tutaj aplikacje innych autorów.",
+                downloads_desc: "Wybierz aplikację i pobierz DMG.",
                 th_ver: "Wersja", th_date: "Data", th_size: "Rozmiar", th_action: "Akcja", col_desc: "Opis",
-                desc_multilang: "Dostępne języki: EN, PL, DE, UA",
+                desc_multilang: "Dostępne języki: EN, PL, DE",
                 desc_label: "Opis",
+                stats_visits: "Wejścia",
+                stats_downloads: "Pobrania",
+                instructions_title: "Instrukcje",
+                autostart_title: "Autostart przy uruchomieniu",
+                autostart_desc: "Aby aplikacja uruchamiała się wraz z logowaniem do systemu należy wejść w Ustawienia / Ogólne / Rzeczy i rozszerzenia otwierane podczas logowania, a następnie dodać aplikację przeciągając ją z Findera (lub klikając plusik). Należy pamiętać, że przełącznik powinien być przesunięty w prawo.",
+                control_title: "Uprawnienia do sterowania komputerem",
+                control_desc: "Aby aplikacja miała możliwość sterowania komputerem (wysuwanie dysków, skróty klawiszowe itp.) należy nadać jej uprawnienia. Aby to zrobić należy wejść w Ustawienia / Prywatność i Ochrona / Dostępność, a następnie dodać aplikację przeciągając ją z Findera (lub klikając plusik). Należy pamiętać, że przełącznik powinien być przesunięty w prawo.",
                 install_title: "Instrukcja instalacji", step_label: "Krok",
                 step1: "Pobierz aplikację - get-dmg.com",
                 step2: "Uruchom .dmg, przeciągnij ikonę.",
@@ -1016,8 +1269,7 @@
                 desc_ejector: "Bezpiecznie montuj i wysuwaj wszystkie woluminy na swoim Macu. Dbaj o swoje dane!",
                 desc_ssh_soon: "mySSH jest w trakcie tworzenia. Wkrótce.",
                 desc_ssh_soon_row: "Wkrótce",
-                desc_resolution_soon: "myResolution jest w trakcie tworzenia. Wkrótce.",
-                desc_resolution_soon_row: "Wkrótce",
+                desc_display: "Aplikacja myDisplay umożliwia zmianę rozdzielczości z wyborem wyświetlacza, szybką minimalizację aplikacji na biurko oraz zapobieganie uśpieniu Twojego Maca.",
                 soon_inline: "Wkrótce"
             },
             de: {
@@ -1032,9 +1284,17 @@
                 hero_title: "Dein Mac.<br>Vereinfacht.", hero_desc: "Kostenlose Apps für deinen Mac. Keine Abos, keine Mikrotransaktionen, keine Registrierung.", hero_btn: "Gehe zu Downloads ↓",
                 btn_read_more: "Details", btn_download: "Download", btn_download_now: "Jetzt laden", btn_soon: "Demnächst",
                 downloads_author_title: "Eigene", downloads_recommended_title: "Empfohlen", downloads_recommended_placeholder: "Empfohlene Apps erscheinen hier demnächst.",
+                downloads_desc: "Wähle eine App und lade die DMG herunter.",
                 th_ver: "Ver", th_date: "Datum", th_size: "Größe", th_action: "Aktion", col_desc: "Beschreibung",
-                desc_multilang: "Verfügbare Sprachen: EN, PL, DE, UA",
+                desc_multilang: "Verfügbare Sprachen: EN, PL, DE",
                 desc_label: "Beschreibung",
+                stats_visits: "Besuche",
+                stats_downloads: "Downloads",
+                instructions_title: "Anleitungen",
+                autostart_title: "Autostart beim Anmelden",
+                autostart_desc: "Damit die App beim Anmelden automatisch startet, gehe zu Einstellungen → Allgemein → Anmeldeobjekte & Erweiterungen und füge die App hinzu (per Drag & Drop aus dem Finder oder über das Plus-Symbol). Achte darauf, dass der Schalter aktiviert ist.",
+                control_title: "Berechtigungen zur Computersteuerung",
+                control_desc: "Damit die App deinen Computer steuern kann (Volumes auswerfen, Tastenkürzel usw.), erteile Berechtigungen unter Einstellungen → Datenschutz & Sicherheit → Bedienungshilfen. Füge die App hinzu (Drag & Drop aus dem Finder oder Plus-Symbol) und aktiviere den Schalter.",
                 install_title: "Installationsanleitung", step_label: "Schritt",
                 step1: "App von get-dmg.com laden",
                 step2: ".dmg öffnen, Icon in Ordner ziehen.",
@@ -1052,8 +1312,7 @@
                 desc_ejector: "Volumes sicher auswerfen. Schütze deine Daten!",
                 desc_ssh_soon: "mySSH ist in Entwicklung. Demnächst.",
                 desc_ssh_soon_row: "Demnächst",
-                desc_resolution_soon: "myResolution ist in Entwicklung. Demnächst.",
-                desc_resolution_soon_row: "Demnächst",
+                desc_display: "myDisplay ermöglicht das Ändern der Auflösung mit Anzeigeauswahl, das schnelle Minimieren von Fenstern auf den Schreibtisch und das Verhindern des Ruhezustands deines Macs.",
                 soon_inline: "Bald"
             },
             ua: {
@@ -1068,9 +1327,17 @@
                 hero_title: "Ваш Mac.<br>Спрощено.", hero_desc: "Безкоштовні програми для Mac. Без підписок, мікротранзакцій та реєстрації.", hero_btn: "До завантажень ↓",
                 btn_read_more: "Деталі", btn_download: "Завантажити", btn_download_now: "Завантажити зараз", btn_soon: "Незабаром",
                 downloads_author_title: "Авторські", downloads_recommended_title: "Рекомендовані", downloads_recommended_placeholder: "Рекомендовані програми з’являться тут незабаром.",
+                downloads_desc: "Виберіть програму та завантажте DMG.",
                 th_ver: "Вер", th_date: "Дата", th_size: "Розмір", th_action: "Дія", col_desc: "Опис",
-                desc_multilang: "Доступні мови: EN, PL, DE, UA",
+                desc_multilang: "Доступні мови: EN, PL, DE",
                 desc_label: "Опис",
+                stats_visits: "Відвідування",
+                stats_downloads: "Завантаження",
+                instructions_title: "Інструкції",
+                autostart_title: "Автозапуск при вході",
+                autostart_desc: "Щоб програма запускалась автоматично після входу в систему, відкрийте Налаштування → Загальні → Елементи входу та розширення і додайте програму, перетягнувши її з Finder (або натиснувши плюс). Переконайтеся, що перемикач увімкнено.",
+                control_title: "Дозволи на керування комп’ютером",
+                control_desc: "Щоб програма могла керувати комп’ютером (вилучення дисків, гарячі клавіші тощо), надайте дозволи у Налаштування → Конфіденційність і безпека → Доступність. Додайте програму (перетягуванням з Finder або кнопкою плюс) і увімкніть перемикач.",
                 install_title: "Інструкція зі встановлення", step_label: "Крок",
                 step1: "Завантажте програму з get-dmg.com",
                 step2: "Відкрийте .dmg, перетягніть іконку.",
@@ -1088,8 +1355,7 @@
                 desc_ejector: "Безпечно монтуйте та виймайте томи. Захистіть свої дані!",
                 desc_ssh_soon: "mySSH активно розробляється. Незабаром.",
                 desc_ssh_soon_row: "Незабаром",
-                desc_resolution_soon: "myResolution активно розробляється. Незабаром.",
-                desc_resolution_soon_row: "Незабаром",
+                desc_display: "myDisplay дозволяє змінювати роздільну здатність з вибором дисплея, швидко мінімізувати вікна на стільницю та запобігати переходу Mac у сон.",
                 soon_inline: "Незабаром"
             }
         };
@@ -1102,7 +1368,7 @@
             const ipHTML = `<details class="manual-details"><summary>${t.about_title || t.desc_label}</summary><div class="manual-inner">${generateMyIPManual(m)}</div></details>`;
             const ejHTML = `<details class="manual-details"><summary>${t.about_title || t.desc_label}</summary><div class="manual-inner">${generateEjectorManual(m)}</div></details>`;
             const sshHTML = `<details class="manual-details"><summary>${t.about_title || t.desc_label}</summary><div class="manual-inner">${generateSSHManual(m)}</div></details>`;
-            const resHTML = `<details class="manual-details"><summary>${t.about_title || t.desc_label}</summary><div class="manual-inner">${generateResolutionManual(m)}</div></details>`;
+            const dispHTML = `<details class="manual-details"><summary>${t.about_title || t.desc_label}</summary><div class="manual-inner">${generateDisplayManual(m)}</div></details>`;
 
             const ipEl = document.querySelector('[data-app="myip"]');
             if (ipEl) ipEl.innerHTML = getAppContent(t, "Ikony aplikacji/myIP/myIP.jpg", "myIP", "myip", t.desc_ip, ipHTML);
@@ -1113,8 +1379,8 @@
             const sshEl = document.querySelector('[data-app="myssh"]');
             if (sshEl) sshEl.innerHTML = getAppContent(t, "Ikony aplikacji/mySSH/mySSH.png", "mySSH", "myssh", t.desc_ssh_soon, sshHTML, { status: 'soon' });
 
-            const resEl = document.querySelector('[data-app="myresolution"]');
-            if (resEl) resEl.innerHTML = getAppContent(t, "logo.png", "myResolution", "myresolution", t.desc_resolution_soon, resHTML, { status: 'soon' });
+            const dispEl = document.querySelector('[data-app="mydisplay"]');
+            if (dispEl) dispEl.innerHTML = getAppContent(t, "Ikony aplikacji/myDisplay/myDisplay.png", "myDisplay", "mydisplay", t.desc_display, dispHTML);
         }
 
         function applyI18n(lang) {
@@ -1156,8 +1422,73 @@
             else setLanguage('en');
         }
 
+        // --- Prosty licznik (CountAPI) ---
+        const COUNTAPI_NS = 'get-dmg.com';
+        const COUNTAPI_BASE = 'https://api.countapi.xyz';
+
+        async function countapiGet(key) {
+            const res = await fetch(`${COUNTAPI_BASE}/get/${encodeURIComponent(COUNTAPI_NS)}/${encodeURIComponent(key)}`, { cache: 'no-store' });
+            if (!res.ok) throw new Error('countapi get failed');
+            return await res.json(); // { value }
+        }
+
+        async function countapiHit(key) {
+            const res = await fetch(`${COUNTAPI_BASE}/hit/${encodeURIComponent(COUNTAPI_NS)}/${encodeURIComponent(key)}`, { cache: 'no-store' });
+            if (!res.ok) throw new Error('countapi hit failed');
+            return await res.json(); // { value }
+        }
+
+        function formatNumber(n) {
+            if (typeof n !== 'number') return '—';
+            try { return n.toLocaleString(document.documentElement.lang || 'en'); }
+            catch { return String(n); }
+        }
+
+        async function refreshStats() {
+            const visitsEl = document.getElementById('stats-visits');
+            const downloadsEl = document.getElementById('stats-downloads');
+            if (!visitsEl || !downloadsEl) return;
+
+            try {
+                // visits: inkrementuj raz na sesję
+                if (!sessionStorage.getItem('counted_visit')) {
+                    sessionStorage.setItem('counted_visit', '1');
+                    const v = await countapiHit('visits');
+                    visitsEl.textContent = formatNumber(v.value);
+                } else {
+                    const v = await countapiGet('visits');
+                    visitsEl.textContent = formatNumber(v.value);
+                }
+            } catch (e) {
+                visitsEl.textContent = '—';
+            }
+
+            try {
+                const d = await countapiGet('downloads');
+                downloadsEl.textContent = formatNumber(d.value);
+            } catch (e) {
+                downloadsEl.textContent = '—';
+            }
+        }
+
+        let downloadsHitInFlight = false;
+        async function incrementDownloads() {
+            if (downloadsHitInFlight) return;
+            downloadsHitInFlight = true;
+            try {
+                const d = await countapiHit('downloads');
+                const downloadsEl = document.getElementById('stats-downloads');
+                if (downloadsEl) downloadsEl.textContent = formatNumber(d.value);
+            } catch (e) {
+                // ignore
+            } finally {
+                downloadsHitInFlight = false;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             detectLanguage();
+            refreshStats();
         });
     </script>
 </body>
