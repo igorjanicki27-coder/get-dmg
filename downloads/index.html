@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get-dmg.com | Downloads</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍏</text></svg>">
+
+    <style>
+        :root {
+            --bg-main: #0d0d0d;
+            --card-bg: #1c1c1e;
+            --border-color: #38383a;
+            --text-main: #f5f5f7;
+            --text-muted: #86868b;
+            --accent-color: #0A84FF;
+            --accent-hover: #0077ED;
+            --content-width: 860px;
+        }
+
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(28, 28, 30, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .icon-btn {
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .icon-btn:hover { color: var(--accent-hover); }
+
+        select#language-picker {
+            background: transparent;
+            color: var(--text-main);
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            font-weight: 600;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        select#language-picker option { background-color: #1c1c1e; }
+
+        main {
+            width: 100%;
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 90px 20px 60px 20px;
+        }
+
+        .page-header h1 { margin: 0 0 10px 0; font-size: 2.4rem; }
+        .page-header p { margin: 0 0 22px 0; color: var(--text-muted); line-height: 1.6; }
+
+        .download-list {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(145deg, #1c1c1e, #151516);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+        }
+
+        .download-list summary { list-style: none; }
+        .download-list summary::-webkit-details-marker { display: none; }
+
+        .download-list > details {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .download-list > details:last-child { margin-bottom: 0; }
+
+        .download-list > details > summary {
+            padding: 18px 18px;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-main);
+        }
+
+        .download-list > details > details {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            margin: 10px 12px;
+            overflow: hidden;
+        }
+        .download-list > details > details > summary {
+            padding: 16px 16px;
+            cursor: pointer;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .download-list details > summary::after {
+            content: '›';
+            font-size: 1.8rem;
+            line-height: 1;
+            color: rgba(10,132,255,0.95);
+            transform: rotate(0deg);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            opacity: 0.95;
+        }
+        .download-list details[open] > summary::after { transform: rotate(90deg); }
+
+        .version-table { width: 100%; border-collapse: collapse; }
+        .version-table td, .version-table th {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-muted);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .version-table th {
+            color: rgba(255,255,255,0.85);
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+        }
+        .version-table td:last-child, .version-table th:last-child { text-align: right; }
+        .version-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+        .download-link {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 20px;
+            border: 1px solid var(--accent-color);
+            background: transparent;
+            color: var(--accent-color);
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .download-link:hover { background: var(--accent-color); border-color: var(--accent-color); color: #ffffff; }
+        .download-soon { color: var(--text-muted); font-weight: 800; }
+
+        @media (max-width: 768px) {
+            main { padding-top: 84px; }
+            .page-header h1 { font-size: 2.0rem; }
+            .top-controls { top: 14px; right: 14px; }
+            .download-list { padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-controls">
+        <a href="../index.html" class="icon-btn" data-i18n-attr="title:btn_back" title="Back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </a>
+        <select id="language-picker" onchange="setLanguage(this.value)">
+            <option value="en">🇺🇸 EN</option>
+            <option value="pl">🇵🇱 PL</option>
+            <option value="de">🇩🇪 DE</option>
+            <option value="ua">🇺🇦 UA</option>
+        </select>
+    </div>
+
+    <main>
+        <div class="page-header">
+            <h1 data-i18n="page_title">Downloads</h1>
+            <p data-i18n="page_desc">Download the latest DMG. Older versions are listed per app.</p>
+        </div>
+
+        <div class="download-list">
+            <details id="dl-author" open>
+                <summary data-i18n="downloads_author_title">Autorskie</summary>
+
+                <details id="dl-author-myip">
+                    <summary>myIP</summary>
+                    <table class="version-table">
+                        <tr>
+                            <th data-i18n="th_ver">Ver</th>
+                            <th data-i18n="th_date">Date</th>
+                            <th data-i18n="th_size">Size</th>
+                            <th data-i18n="th_action">Action</th>
+                        </tr>
+                        <tr>
+                            <td>v1.0</td>
+                            <td>2023-11-20</td>
+                            <td>8 MB</td>
+                            <td><a class="download-link" onclick="downloadFile('aplikacje/myIP/myIP_v1.0.dmg')" data-i18n="btn_download">Download</a></td>
+                        </tr>
+                    </table>
+                </details>
+
+                <details id="dl-author-myejector">
+                    <summary>myEjector</summary>
+                    <table class="version-table">
+                        <tr>
+                            <th data-i18n="th_ver">Ver</th>
+                            <th data-i18n="th_date">Date</th>
+                            <th data-i18n="th_size">Size</th>
+                            <th data-i18n="th_action">Action</th>
+                        </tr>
+                        <tr>
+                            <td>v1.0</td>
+                            <td>2023-12-05</td>
+                            <td>4 MB</td>
+                            <td><a class="download-link" onclick="downloadFile('aplikacje/myEjector/myEjector_v1.0.dmg')" data-i18n="btn_download">Download</a></td>
+                        </tr>
+                    </table>
+                </details>
+
+                <details id="dl-author-mydisplay">
+                    <summary>myDisplay</summary>
+                    <table class="version-table">
+                        <tr>
+                            <th data-i18n="th_ver">Ver</th>
+                            <th data-i18n="th_date">Date</th>
+                            <th data-i18n="th_size">Size</th>
+                            <th data-i18n="th_action">Action</th>
+                        </tr>
+                        <tr>
+                            <td>v1.0</td>
+                            <td>2025-12-23</td>
+                            <td>2.04 MB</td>
+                            <td><a class="download-link" onclick="downloadFile('aplikacje/myDisplay/myDisplay_v1.0.dmg')" data-i18n="btn_download">Download</a></td>
+                        </tr>
+                    </table>
+                </details>
+
+                <details id="dl-author-myssh">
+                    <summary>mySSH</summary>
+                    <table class="version-table">
+                        <tr>
+                            <th data-i18n="th_ver">Ver</th>
+                            <th data-i18n="th_date">Date</th>
+                            <th data-i18n="th_size">Size</th>
+                            <th data-i18n="th_action">Action</th>
+                        </tr>
+                        <tr>
+                            <td data-i18n="soon_inline">Soon</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td><span class="download-soon" data-i18n="btn_soon">Coming soon</span></td>
+                        </tr>
+                    </table>
+                </details>
+            </details>
+
+            <details id="dl-recommended">
+                <summary data-i18n="downloads_recommended_title">Polecane</summary>
+                <div style="padding: 15px 18px; color: var(--text-muted);" data-i18n="downloads_recommended_placeholder">
+                    Wkrótce pojawią się tutaj aplikacje innych autorów.
+                </div>
+            </details>
+        </div>
+    </main>
+
+    <script>
+        function downloadFile(filePath) {
+            const link = document.createElement('a');
+            link.href = '../' + filePath;
+            link.download = filePath.split('/').pop().replace(/%20/g, " ");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // po uruchomieniu pobierania – przejdź do donate na stronie głównej
+            setTimeout(() => {
+                window.location.href = '../index.html#contact';
+            }, 800);
+        }
+
+        const translations = {
+            en: {
+                btn_back: "Back to home",
+                page_title: "Downloads",
+                page_desc: "Download the latest DMG. Older versions are listed per app.",
+                downloads_author_title: "Original",
+                downloads_recommended_title: "Recommended",
+                downloads_recommended_placeholder: "Recommended apps will appear here soon.",
+                th_ver: "Ver",
+                th_date: "Date",
+                th_size: "Size",
+                th_action: "Action",
+                btn_download: "Download",
+                btn_soon: "Coming soon",
+                soon_inline: "Soon"
+            },
+            pl: {
+                btn_back: "Powrót",
+                page_title: "Pobieranie",
+                page_desc: "Pobierz najnowszą wersję DMG. Starsze wersje są w tabelach aplikacji.",
+                downloads_author_title: "Autorskie",
+                downloads_recommended_title: "Polecane",
+                downloads_recommended_placeholder: "Wkrótce pojawią się tutaj aplikacje innych autorów.",
+                th_ver: "Wersja",
+                th_date: "Data",
+                th_size: "Rozmiar",
+                th_action: "Akcja",
+                btn_download: "Pobierz",
+                btn_soon: "Wkrótce",
+                soon_inline: "Wkrótce"
+            },
+            de: {
+                btn_back: "Zurück",
+                page_title: "Downloads",
+                page_desc: "Lade die neueste DMG herunter. Ältere Versionen sind pro App gelistet.",
+                downloads_author_title: "Eigene",
+                downloads_recommended_title: "Empfohlen",
+                downloads_recommended_placeholder: "Empfohlene Apps erscheinen hier demnächst.",
+                th_ver: "Ver",
+                th_date: "Datum",
+                th_size: "Größe",
+                th_action: "Aktion",
+                btn_download: "Download",
+                btn_soon: "Demnächst",
+                soon_inline: "Bald"
+            },
+            ua: {
+                btn_back: "Назад",
+                page_title: "Завантаження",
+                page_desc: "Завантажте найновішу DMG. Старі версії наведені в таблицях програм.",
+                downloads_author_title: "Авторські",
+                downloads_recommended_title: "Рекомендовані",
+                downloads_recommended_placeholder: "Рекомендовані програми з’являться тут незабаром.",
+                th_ver: "Вер",
+                th_date: "Дата",
+                th_size: "Розмір",
+                th_action: "Дія",
+                btn_download: "Завантажити",
+                btn_soon: "Незабаром",
+                soon_inline: "Незабаром"
+            }
+        };
+
+        function applyI18n(lang) {
+            const dict = translations[lang] || translations.en;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (!key) return;
+                if (dict[key] !== undefined) el.innerHTML = dict[key];
+                else if (translations.en[key] !== undefined) el.innerHTML = translations.en[key];
+            });
+
+            document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+                const spec = el.getAttribute('data-i18n-attr');
+                if (!spec) return;
+                const [attr, key] = spec.split(':');
+                if (!attr || !key) return;
+                const value = dict[key] ?? translations.en[key];
+                if (value !== undefined) el.setAttribute(attr, value);
+            });
+        }
+
+        function setLanguage(lang) {
+            if (!translations[lang]) lang = 'en';
+            document.documentElement.lang = lang;
+            localStorage.setItem('lang', lang);
+            document.getElementById('language-picker').value = lang;
+            applyI18n(lang);
+        }
+
+        function detectLanguage() {
+            const saved = localStorage.getItem('lang');
+            if (saved && translations[saved]) return setLanguage(saved);
+            const userLang = navigator.language || navigator.userLanguage || 'en';
+            const code = userLang.substring(0, 2).toLowerCase();
+            if (translations[code]) setLanguage(code);
+            else setLanguage('en');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            detectLanguage();
+        });
+    </script>
+</body>
+</html>
+
+

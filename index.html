@@ -17,6 +17,7 @@
             --text-muted: #86868b;
             --accent-color: #0A84FF;
             --accent-hover: #0077ED;
+            --content-width: 980px;
         }
 
         html { scroll-behavior: smooth; }
@@ -132,6 +133,7 @@
             outline: none;
             font-weight: 500;
             text-align: right;
+            appearance: none;
             -webkit-appearance: none;
         }
 
@@ -177,17 +179,39 @@
             scroll-margin-top: 20px;
         }
 
-        .section-header { max-width: 900px; width: 100%; margin-bottom: 25px; }
+        .section-header { max-width: var(--content-width); width: 100%; margin: 0 auto 25px auto; }
         .section-header h2 { margin: 0 0 8px 0; font-size: 1.8rem; }
         .section-header p { margin: 0; color: var(--text-muted); line-height: 1.6; }
+
+        /* Nagłówki działów: dosunięte i wyrównane do lewej (bez "pływania" na środku) */
+        #author-apps, #recommended {
+            justify-content: flex-start;
+            padding-top: 46px;
+            padding-bottom: 18px;
+        }
+        #author-apps .section-header,
+        #recommended .section-header {
+            margin-left: 0;
+            margin-right: auto;
+            max-width: var(--content-width);
+        }
+
+        /* Sekcje z kartami aplikacji – mniej pustego miejsca, spójnie z Pobieraniem */
+        .app-section {
+            padding-top: 28px;
+            padding-bottom: 28px;
+            border-bottom: none;
+        }
+        .app-section + .app-section { padding-top: 0; }
 
         .app-card {
             background: var(--card-bg);
             padding: 25px;
             border-radius: 16px;
             border: 1px solid var(--border-color);
-            max-width: 800px;
-            width: 100%;
+            max-width: var(--content-width);
+            width: 90%;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             gap: 25px;
@@ -213,6 +237,22 @@
             align-items: center;
             width: 100%;
         }
+
+        .app-actions { display: flex; gap: 12px; align-items: center; }
+        .btn-download {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 20px;
+            border: 1px solid var(--accent-color);
+            background: transparent;
+            color: var(--accent-color);
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-download:hover { background: var(--accent-color); border-color: var(--accent-color); color: #ffffff; }
+        .btn-download.disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
 
         .app-card-content h2 { font-size: 2rem; margin: 0; color: var(--text-main); line-height: 1; }
 
@@ -249,7 +289,7 @@
         /* Downloads */
         .download-list {
             width: 100%;
-            max-width: 860px;
+            max-width: var(--content-width);
             margin: 18px auto 0 auto;
             padding: 18px;
             background: linear-gradient(145deg, #1c1c1e, #151516);
@@ -286,7 +326,7 @@
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.07);
             border-radius: 16px;
-            margin: 12px 14px;
+            margin: 10px 12px;
             overflow: hidden;
         }
         .download-list > details > details > summary {
@@ -330,12 +370,23 @@
             letter-spacing: 0.08em;
         }
 
-        .download-link { color: var(--accent-color); font-weight: bold; text-decoration: none; cursor: pointer; }
-        .download-link:hover { text-decoration: underline; }
+        /* “Pobierz” jako przycisk, nie goły link */
+        .download-link {
+            display: inline-block;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: rgba(10,132,255,0.16);
+            border: 1px solid rgba(10,132,255,0.35);
+            color: rgba(10,132,255,0.95);
+            font-weight: 900;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .download-link:hover { background: rgba(10,132,255,0.22); border-color: rgba(10,132,255,0.5); }
         .download-soon { color: var(--text-muted); font-weight: 700; }
 
-        #downloads { align-items: center; }
-        #downloads .section-header { max-width: 860px; width: 100%; }
+        /* (downloads section removed) */
 
         #contact { text-align: center; align-items: center; padding-top: 80px; padding-bottom: 80px; }
 
@@ -490,6 +541,7 @@
             .sidebar-logo { display: block; width: 90px; margin: 0 auto 30px auto; }
             main { margin-left: 0; width: 100%; }
             section { padding: 60px 20px; }
+            .app-section { padding-top: 22px; padding-bottom: 22px; }
             h1 { font-size: 2.8rem; }
             .top-controls { top: 15px; right: 15px; }
             .modal-content { padding: 20px; }
@@ -507,7 +559,7 @@
     <div class="menu-overlay" onclick="toggleMenu()"></div>
 
     <div class="top-controls">
-        <a onclick="smartScroll('downloads')" class="download-icon-btn" data-i18n-attr="title:nav_downloads" title="Downloads">
+        <a href="downloads/" class="download-icon-btn" data-i18n-attr="title:nav_downloads" title="Downloads">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         </a>
         <select id="language-picker" onchange="setLanguage(this.value)">
@@ -536,7 +588,6 @@
             <li class="nav-group" data-i18n="nav_group_recommended">Polecane</li>
             <li><a onclick="smartScroll('recommended')" class="nav-link nav-sub soon" data-i18n="nav_recommended_placeholder">Wkrótce</a></li>
 
-            <li style="margin-top: 20px;"><a onclick="smartScroll('downloads')" class="nav-link nav-main" data-i18n="nav_downloads">Downloads</a></li>
             <li><a onclick="smartScroll('contact')" class="nav-link nav-main" data-i18n="nav_contact">Contact</a></li>
         </ul>
     </nav>
@@ -547,7 +598,7 @@
                 <div>
                     <h1 data-i18n="hero_title">Twój Mac<br>w lepszym wydaniu</h1>
                     <p class="desc" data-i18n="hero_desc">Darmowe aplikacje na twojego Maca. Bez subskrypcji, mikropłatności i rejestracji.</p>
-                    <a onclick="smartScroll('downloads')" class="btn-more" style="background:var(--text-main); color:black;" data-i18n="hero_btn">Go to Downloads ↓</a>
+                    <a onclick="smartScroll('myip')" class="btn-more" style="background:var(--text-main); color:black;" data-i18n="hero_btn">Go to Downloads ↓</a>
                 </div>
                 <div class="hero-images">
                     <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" class="hero-img" alt="MacBook">
@@ -562,42 +613,54 @@
             </div>
         </section>
 
-        <section id="myip">
+        <section id="myip" class="app-section">
             <div class="app-card">
                 <img src="Ikony aplikacji/myIP/myIP.jpg" alt="myIP" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>myIP</h2>
-                    <button class="btn-more" onclick="openModal('modal-myip')" data-i18n="btn_read_more">Więcej</button>
+                    <div class="app-actions">
+                        <button class="btn-more" onclick="openModal('modal-myip')" data-i18n="btn_read_more">Więcej</button>
+                        <button class="btn-download" onclick="downloadLatest('myip')" data-i18n="btn_download">Pobierz</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="myssh">
+        <section id="myssh" class="app-section">
             <div class="app-card soon">
                 <img src="Ikony aplikacji/mySSH/mySSH.png" alt="mySSH" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>mySSH</h2>
-                    <button class="btn-more" onclick="openModal('modal-myssh')" data-i18n="btn_soon">Wkrótce</button>
+                    <div class="app-actions">
+                        <button class="btn-more" onclick="openModal('modal-myssh')" data-i18n="btn_read_more">Więcej</button>
+                        <button class="btn-download disabled" data-i18n="btn_soon">Wkrótce</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="myejector">
+        <section id="myejector" class="app-section">
             <div class="app-card">
                 <img src="Ikony aplikacji/myEjector/myEjector.png" alt="myEjector" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>myEjector</h2>
-                    <button class="btn-more" onclick="openModal('modal-myejector')" data-i18n="btn_read_more">Więcej</button>
+                    <div class="app-actions">
+                        <button class="btn-more" onclick="openModal('modal-myejector')" data-i18n="btn_read_more">Więcej</button>
+                        <button class="btn-download" onclick="downloadLatest('myejector')" data-i18n="btn_download">Pobierz</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="mydisplay">
+        <section id="mydisplay" class="app-section">
             <div class="app-card">
                 <img src="Ikony aplikacji/myDisplay/myDisplay.png" alt="myDisplay" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>myDisplay</h2>
-                    <button class="btn-more" onclick="openModal('modal-mydisplay')" data-i18n="btn_read_more">Więcej</button>
+                    <div class="app-actions">
+                        <button class="btn-more" onclick="openModal('modal-mydisplay')" data-i18n="btn_read_more">Więcej</button>
+                        <button class="btn-download" onclick="downloadLatest('mydisplay')" data-i18n="btn_download">Pobierz</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -606,105 +669,6 @@
             <div class="section-header">
                 <h2 data-i18n="section_recommended_title">Polecane aplikacje</h2>
                 <p data-i18n="section_recommended_desc">Wkrótce dodamy aplikacje innych autorów, które mogę z czystym sumieniem polecić.</p>
-            </div>
-        </section>
-
-        <section id="downloads">
-            <div class="section-header">
-                <h2 data-i18n="nav_downloads">Download Center</h2>
-                <p data-i18n="downloads_desc">Wybierz aplikację i pobierz DMG.</p>
-            </div>
-            <div class="download-list">
-                <details id="dl-author" open>
-                    <summary data-i18n="downloads_author_title">Autorskie</summary>
-
-                    <details id="dl-author-myip">
-                        <summary>myIP</summary>
-                        <table class="version-table">
-                            <tr>
-                                <th data-i18n="th_ver">Ver</th>
-                                <th data-i18n="col_desc" class="desc-col">Description</th>
-                                <th data-i18n="th_date">Date</th>
-                                <th data-i18n="th_size">Size</th>
-                                <th data-i18n="th_action">Action</th>
-                            </tr>
-                            <tr>
-                                <td>v1.0</td>
-                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td>
-                                <td>2023-11-20</td>
-                                <td>8 MB</td>
-                                <td><a onclick="downloadAndScroll('aplikacje/myIP/myIP_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td>
-                            </tr>
-                        </table>
-                    </details>
-
-                    <details id="dl-author-myssh">
-                        <summary>mySSH</summary>
-                        <table class="version-table">
-                            <tr>
-                                <th data-i18n="th_ver">Ver</th>
-                                <th data-i18n="col_desc" class="desc-col">Description</th>
-                                <th data-i18n="th_date">Date</th>
-                                <th data-i18n="th_size">Size</th>
-                                <th data-i18n="th_action">Action</th>
-                            </tr>
-                            <tr>
-                                <td data-i18n="soon_inline">Soon</td>
-                                <td class="desc-col" data-i18n="desc_ssh_soon_row">Coming soon</td>
-                                <td>—</td>
-                                <td>—</td>
-                                <td><span class="download-soon" data-i18n="btn_soon">Coming soon</span></td>
-                            </tr>
-                        </table>
-                    </details>
-
-                    <details id="dl-author-myejector">
-                        <summary>myEjector</summary>
-                        <table class="version-table">
-                            <tr>
-                                <th data-i18n="th_ver">Ver</th>
-                                <th data-i18n="col_desc" class="desc-col">Description</th>
-                                <th data-i18n="th_date">Date</th>
-                                <th data-i18n="th_size">Size</th>
-                                <th data-i18n="th_action">Action</th>
-                            </tr>
-                            <tr>
-                                <td>v1.0</td>
-                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td>
-                                <td>2023-12-05</td>
-                                <td>4 MB</td>
-                                <td><a onclick="downloadAndScroll('aplikacje/myEjector/myEjector_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td>
-                            </tr>
-                        </table>
-                    </details>
-
-                    <details id="dl-author-mydisplay">
-                        <summary>myDisplay</summary>
-                        <table class="version-table">
-                            <tr>
-                                <th data-i18n="th_ver">Ver</th>
-                                <th data-i18n="col_desc" class="desc-col">Description</th>
-                                <th data-i18n="th_date">Date</th>
-                                <th data-i18n="th_size">Size</th>
-                                <th data-i18n="th_action">Action</th>
-                            </tr>
-                            <tr>
-                                <td>v1.0</td>
-                                <td class="desc-col" data-i18n="desc_multilang">Available languages: EN, PL, DE</td>
-                                <td>2025-12-23</td>
-                                <td>2.04 MB</td>
-                                <td><a onclick="downloadAndScroll('aplikacje/myDisplay/myDisplay_v1.0.dmg')" class="download-link" data-i18n="btn_download">Download</a></td>
-                            </tr>
-                        </table>
-                    </details>
-                </details>
-
-                <details id="dl-recommended">
-                    <summary data-i18n="downloads_recommended_title">Polecane</summary>
-                    <div style="padding: 15px 20px; color: var(--text-muted);" data-i18n="downloads_recommended_placeholder">
-                        Wkrótce pojawią się tutaj aplikacje innych autorów.
-                    </div>
-                </details>
             </div>
         </section>
 
@@ -762,22 +726,54 @@
 
         const backToTopBtn = document.querySelector('.back-to-top');
         const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('section');
 
-        window.addEventListener('scroll', () => {
+        function extractTargetIdFromOnclick(onclickValue) {
+            if (!onclickValue) return null;
+            const m = onclickValue.match(/smartScroll\('([^']+)'\)/);
+            return m ? m[1] : null;
+        }
+
+        // Tylko sekcje, które są faktycznie w menu (żeby nie łapać np. nagłówków pomocniczych)
+        const navSectionIds = Array.from(navLinks)
+            .map((l) => extractTargetIdFromOnclick(l.getAttribute('onclick')))
+            .filter(Boolean);
+        const navSections = navSectionIds
+            .map((id) => document.getElementById(id))
+            .filter(Boolean);
+
+        let scrollTicking = false;
+        function updateActiveNav() {
+            scrollTicking = false;
+
             if (window.scrollY > 300) backToTopBtn.classList.add('visible');
             else backToTopBtn.classList.remove('visible');
 
-            let current = '';
-            sections.forEach(section => {
-                if (window.scrollY >= (section.offsetTop - 150)) current = section.getAttribute('id');
-            });
+            // Używamy "linii kotwicy" w środku ekranu (działa też, gdy scrollIntoView centruje krótkie sekcje)
+            const anchorY = Math.round(window.innerHeight * 0.5);
+            let currentId = navSections[0]?.id || '';
+
+            for (const sec of navSections) {
+                const r = sec.getBoundingClientRect();
+                if (r.top <= anchorY && r.bottom > anchorY) {
+                    currentId = sec.id;
+                    break;
+                }
+            }
 
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(`'${current}'`)) link.classList.add('active');
+                const targetId = extractTargetIdFromOnclick(link.getAttribute('onclick'));
+                if (targetId && targetId === currentId) link.classList.add('active');
             });
-        });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                scrollTicking = true;
+                window.requestAnimationFrame(updateActiveNav);
+            }
+        }, { passive: true });
+        window.addEventListener('resize', updateActiveNav, { passive: true });
 
         function smartScroll(id) {
             const element = document.getElementById(id);
@@ -804,6 +800,28 @@
             }, 800);
         }
 
+        function downloadLatest(appCode) {
+            const downloadMap = {
+                myip: 'aplikacje/myIP/myIP_v1.0.dmg',
+                myejector: 'aplikacje/myEjector/myEjector_v1.0.dmg',
+                mydisplay: 'aplikacje/myDisplay/myDisplay_v1.0.dmg'
+            };
+            const fp = downloadMap[appCode];
+            if (!fp) return;
+
+            // bez przewijania: szybkie pobranie najnowszej wersji
+            incrementDownloads();
+            const link = document.createElement('a');
+            link.href = fp;
+            link.download = fp.split('/').pop().replace(/%20/g, " ");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // po uruchomieniu pobierania – przejdź do donate
+            smartScroll('contact');
+        }
+
         function openModal(modalId) {
             updateModalContent();
             const el = document.getElementById(modalId);
@@ -822,15 +840,21 @@
         }
 
         function openDownloadSection(appCode) {
+            const downloadMap = {
+                myip: 'aplikacje/myIP/myIP_v1.0.dmg',
+                myejector: 'aplikacje/myEjector/myEjector_v1.0.dmg',
+                mydisplay: 'aplikacje/myDisplay/myDisplay_v1.0.dmg'
+            };
+
             closeModal();
-            smartScroll('downloads');
-            setTimeout(() => {
-                document.querySelectorAll('#downloads details').forEach(d => d.removeAttribute('open'));
-                const authorGroup = document.getElementById('dl-author');
-                if (authorGroup) authorGroup.open = true;
-                const target = document.getElementById('dl-author-' + appCode);
-                if (target) target.open = true;
-            }, 600);
+
+            const fp = downloadMap[appCode];
+            if (!fp) {
+                smartScroll('contact');
+                return;
+            }
+
+            downloadAndScroll(fp);
         }
 
         function getAppContent(langTitles, iconPath, appTitle, appCode, shortDesc, appManualContent, options = {}) {
@@ -1195,7 +1219,7 @@
                 nav_recommended_placeholder: "Coming soon",
                 section_author_title: "Original apps", section_author_desc: "Tools created by me — no subscriptions and no unnecessary friction.",
                 section_recommended_title: "Recommended apps", section_recommended_desc: "Soon you'll find apps from other authors that I can genuinely recommend.",
-                hero_title: "Your Mac.<br>Simplified.", hero_desc: "Free apps for your Mac. No subscriptions, microtransactions or registration.", hero_btn: "Go to Downloads ↓",
+                hero_title: "Your Mac.<br>Simplified.", hero_desc: "Free apps for your Mac. No subscriptions, microtransactions or registration.", hero_btn: "Browse apps ↓",
                 btn_read_more: "Details", btn_download: "Download", btn_download_now: "Download Now", btn_soon: "Coming soon",
                 downloads_author_title: "Original", downloads_recommended_title: "Recommended", downloads_recommended_placeholder: "Recommended apps will appear here soon.",
                 downloads_desc: "Pick an app and download the DMG.",
@@ -1238,7 +1262,7 @@
                 nav_recommended_placeholder: "Wkrótce",
                 section_author_title: "Autorskie aplikacje", section_author_desc: "Narzędzia tworzone przeze mnie – bez subskrypcji i zbędnych formalności.",
                 section_recommended_title: "Polecane aplikacje", section_recommended_desc: "Wkrótce dodamy aplikacje innych autorów, które mogę z czystym sumieniem polecić.",
-                hero_title: "Twój Mac<br>w lepszym wydaniu", hero_desc: "Darmowe aplikacje na twojego Maca. Bez subskrypcji, mikropłatności i rejestracji.", hero_btn: "Pobierz ↓",
+                hero_title: "Twój Mac<br>w lepszym wydaniu", hero_desc: "Darmowe aplikacje na twojego Maca. Bez subskrypcji, mikropłatności i rejestracji.", hero_btn: "Przeglądaj ↓",
                 btn_read_more: "Szczegóły", btn_download: "Pobierz", btn_download_now: "Pobierz teraz", btn_soon: "Wkrótce",
                 downloads_author_title: "Autorskie", downloads_recommended_title: "Polecane", downloads_recommended_placeholder: "Wkrótce pojawią się tutaj aplikacje innych autorów.",
                 downloads_desc: "Wybierz aplikację i pobierz DMG.",
@@ -1281,7 +1305,7 @@
                 nav_recommended_placeholder: "Demnächst",
                 section_author_title: "Eigene Apps", section_author_desc: "Tools von mir — ohne Abos und ohne unnötige Hürden.",
                 section_recommended_title: "Empfohlene Apps", section_recommended_desc: "Bald findest du hier Apps anderer Entwickler, die ich empfehlen kann.",
-                hero_title: "Dein Mac.<br>Vereinfacht.", hero_desc: "Kostenlose Apps für deinen Mac. Keine Abos, keine Mikrotransaktionen, keine Registrierung.", hero_btn: "Gehe zu Downloads ↓",
+                hero_title: "Dein Mac.<br>Vereinfacht.", hero_desc: "Kostenlose Apps für deinen Mac. Keine Abos, keine Mikrotransaktionen, keine Registrierung.", hero_btn: "Apps ansehen ↓",
                 btn_read_more: "Details", btn_download: "Download", btn_download_now: "Jetzt laden", btn_soon: "Demnächst",
                 downloads_author_title: "Eigene", downloads_recommended_title: "Empfohlen", downloads_recommended_placeholder: "Empfohlene Apps erscheinen hier demnächst.",
                 downloads_desc: "Wähle eine App und lade die DMG herunter.",
@@ -1324,7 +1348,7 @@
                 nav_recommended_placeholder: "Незабаром",
                 section_author_title: "Авторські програми", section_author_desc: "Інструменти, створені мною — без підписок і зайвих кроків.",
                 section_recommended_title: "Рекомендовані програми", section_recommended_desc: "Незабаром тут з’являться програми інших авторів, які я можу рекомендувати.",
-                hero_title: "Ваш Mac.<br>Спрощено.", hero_desc: "Безкоштовні програми для Mac. Без підписок, мікротранзакцій та реєстрації.", hero_btn: "До завантажень ↓",
+                hero_title: "Ваш Mac.<br>Спрощено.", hero_desc: "Безкоштовні програми для Mac. Без підписок, мікротранзакцій та реєстрації.", hero_btn: "Переглянути ↓",
                 btn_read_more: "Деталі", btn_download: "Завантажити", btn_download_now: "Завантажити зараз", btn_soon: "Незабаром",
                 downloads_author_title: "Авторські", downloads_recommended_title: "Рекомендовані", downloads_recommended_placeholder: "Рекомендовані програми з’являться тут незабаром.",
                 downloads_desc: "Виберіть програму та завантажте DMG.",
@@ -1489,6 +1513,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             detectLanguage();
             refreshStats();
+            updateActiveNav();
         });
     </script>
 </body>
