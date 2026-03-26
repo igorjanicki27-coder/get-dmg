@@ -575,7 +575,7 @@
     </div>
 
     <nav id="sidebar">
-        <img src="logo.png" alt="Logo" class="sidebar-logo">
+        <img src="ikony/logo.png" alt="Logo" class="sidebar-logo">
         <ul>
             <li><a onclick="smartScroll('home')" class="nav-link nav-main active" data-i18n="nav_home">Home</a></li>
 
@@ -588,6 +588,7 @@
             <li class="nav-group" data-i18n="nav_group_recommended">Polecane</li>
             <li><a onclick="smartScroll('recommended')" class="nav-link nav-sub soon" data-i18n="nav_recommended_placeholder">Wkrótce</a></li>
 
+            <li style="margin-top: 20px;"><a href="changelog/" class="nav-link nav-main" data-i18n="nav_whats_new">What’s new</a></li>
             <li><a onclick="smartScroll('contact')" class="nav-link nav-main" data-i18n="nav_contact">Contact</a></li>
         </ul>
     </nav>
@@ -615,7 +616,7 @@
 
         <section id="myip" class="app-section">
             <div class="app-card">
-                <img src="Ikony aplikacji/myIP/myIP.jpg" alt="myIP" class="app-icon-img">
+                <img src="ikony/myIP.jpg" alt="myIP" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>myIP</h2>
                     <div class="app-actions">
@@ -628,7 +629,7 @@
 
         <section id="myssh" class="app-section">
             <div class="app-card soon">
-                <img src="Ikony aplikacji/mySSH/mySSH.png" alt="mySSH" class="app-icon-img">
+                <img src="ikony/mySSH.png" alt="mySSH" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>mySSH</h2>
                     <div class="app-actions">
@@ -641,7 +642,7 @@
 
         <section id="myejector" class="app-section">
             <div class="app-card">
-                <img src="Ikony aplikacji/myEjector/myEjector.png" alt="myEjector" class="app-icon-img">
+                <img src="ikony/myEjector.png" alt="myEjector" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>myEjector</h2>
                     <div class="app-actions">
@@ -654,7 +655,7 @@
 
         <section id="mydisplay" class="app-section">
             <div class="app-card">
-                <img src="Ikony aplikacji/myDisplay/myDisplay.png" alt="myDisplay" class="app-icon-img">
+                <img src="ikony/myDisplay.png" alt="myDisplay" class="app-icon-img">
                 <div class="app-card-content">
                     <h2>myDisplay</h2>
                     <div class="app-actions">
@@ -674,7 +675,7 @@
 
         <section id="contact">
             <div class="contact-card">
-                <img src="logo.png" alt="Logo" class="contact-logo">
+                <img src="ikony/logo.png" alt="Logo" class="contact-logo">
                 <p data-i18n="donate_text">Hello. All services and apps you found here are fully free...</p>
 
                 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
@@ -802,9 +803,9 @@
 
         function downloadLatest(appCode) {
             const downloadMap = {
-                myip: 'aplikacje/myIP/myIP_v1.0.dmg',
-                myejector: 'aplikacje/myEjector/myEjector_v1.0.dmg',
-                mydisplay: 'aplikacje/myDisplay/myDisplay_v1.0.dmg'
+                myip: 'downloads/myIP_v1.0.dmg',
+                myejector: 'downloads/myEjector_v1.1.dmg',
+                mydisplay: 'downloads/myDisplay_v2.0.dmg'
             };
             const fp = downloadMap[appCode];
             if (!fp) return;
@@ -841,9 +842,9 @@
 
         function openDownloadSection(appCode) {
             const downloadMap = {
-                myip: 'aplikacje/myIP/myIP_v1.0.dmg',
-                myejector: 'aplikacje/myEjector/myEjector_v1.0.dmg',
-                mydisplay: 'aplikacje/myDisplay/myDisplay_v1.0.dmg'
+                myip: 'downloads/myIP_v1.0.dmg',
+                myejector: 'downloads/myEjector_v1.1.dmg',
+                mydisplay: 'downloads/myDisplay_v2.0.dmg'
             };
 
             closeModal();
@@ -878,7 +879,7 @@
                             <div class="step-card" style="grid-column: 1 / -1;">
                                 <div class="step-txt"><p class="step-desc">${desc}</p></div>
                                 <div class="step-img-container" style="height: auto; padding: 20px;">
-                                    <img src="aplikacje/Instrukcja_instalacji/Instrukcja_start1.png" class="step-img img-fit-width" alt="" onerror="this.style.display='none'">
+                                    <img src="instrukcje/instalacja/Instrukcja_start1.png" class="step-img img-fit-width" alt="" onerror="this.style.display='none'">
                                 </div>
                             </div>
                         </div>
@@ -897,7 +898,7 @@
                             <div class="step-card" style="grid-column: 1 / -1;">
                                 <div class="step-txt"><p class="step-desc">${desc}</p></div>
                                 <div class="step-img-container" style="height: auto; padding: 20px;">
-                                    <img src="aplikacje/Instrukcja_instalacji/Instrukcja_dostep1.png" class="step-img img-fit-width" alt="" onerror="this.style.display='none'">
+                                    <img src="instrukcje/instalacja/Instrukcja_dostep1.png" class="step-img img-fit-width" alt="" onerror="this.style.display='none'">
                                 </div>
                             </div>
                         </div>
@@ -929,21 +930,21 @@
                                 <ul style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; padding-left: 20px; margin: 0;">${listItems}</ul>
                             </div>
                             <div style="flex: 1; min-width: 300px; text-align: center;">
-                                <img src="aplikacje/myIP/Instrukcja1.png" class="step-img" style="max-height: 400px; width: auto; max-width: 100%; border-radius: 8px; border: 1px solid #444;">
+                                <img src="instrukcje/myIP/Instrukcja1.png" class="step-img" style="max-height: 400px; width: auto; max-width: 100%; border-radius: 8px; border: 1px solid #444;">
                             </div>
                         </div>
                     </div>
                     <div class="step-card">
                         <div class="step-txt"><span class="step-title">${t.ip_sett1}</span><p class="step-desc">${t.ip_sett1_d}</p></div>
-                        <div class="step-img-container"><img src="aplikacje/myIP/Instrukcja2.png" class="step-img img-fit-width" alt=""></div>
+                        <div class="step-img-container"><img src="instrukcje/myIP/Instrukcja2.png" class="step-img img-fit-width" alt=""></div>
                     </div>
                     <div class="step-card">
                         <div class="step-txt"><span class="step-title">${t.ip_sett2}</span><p class="step-desc">${t.ip_sett2_d}</p></div>
-                        <div class="step-img-container"><img src="aplikacje/myIP/Instrukcja3.png" class="step-img img-fit-width" alt=""></div>
+                        <div class="step-img-container"><img src="instrukcje/myIP/Instrukcja3.png" class="step-img img-fit-width" alt=""></div>
                     </div>
                     <div class="step-card">
                         <div class="step-txt"><span class="step-title">${t.ip_sett3}</span><p class="step-desc">${t.ip_sett3_d}</p></div>
-                        <div class="step-img-container"><img src="aplikacje/myIP/Instrukcja4.png" class="step-img img-fit-width" alt=""></div>
+                        <div class="step-img-container"><img src="instrukcje/myIP/Instrukcja4.png" class="step-img img-fit-width" alt=""></div>
                     </div>
                     <div class="step-card" style="grid-column: 1 / -1;">
                         <div class="step-txt" style="text-align: center;">
@@ -951,8 +952,8 @@
                             <p class="step-desc">${t.ip_usage_d}</p>
                         </div>
                         <div class="step-img-container" style="height: auto; padding: 20px; gap: 20px; background: transparent; border: none; flex-wrap: wrap;">
-                            <img src="aplikacje/myIP/Instrukcja5.png" class="step-img" style="max-height: 350px; width: auto; max-width: 48%; border-radius: 8px; border: 1px solid #444;" alt="">
-                            <img src="aplikacje/myIP/Instrukcja6.png" class="step-img" style="max-height: 350px; width: auto; max-width: 48%; border-radius: 8px; border: 1px solid #444;" alt="">
+                            <img src="instrukcje/myIP/Instrukcja5.png" class="step-img" style="max-height: 350px; width: auto; max-width: 48%; border-radius: 8px; border: 1px solid #444;" alt="">
+                            <img src="instrukcje/myIP/Instrukcja6.png" class="step-img" style="max-height: 350px; width: auto; max-width: 48%; border-radius: 8px; border: 1px solid #444;" alt="">
                         </div>
                     </div>
                 </div>`;
@@ -964,16 +965,16 @@
                     <div class="step-card" style="grid-column: 1 / -1;">
                         <div class="step-txt"><p class="step-desc">${t.ej_desc}</p></div>
                         <div class="step-img-container" style="height: auto; padding: 20px;">
-                            <img src="aplikacje/myEjector/Instrukcja1.png" class="step-img img-fit-width" alt="">
+                            <img src="instrukcje/myEjector/Instrukcja1.png" class="step-img img-fit-width" alt="">
                         </div>
                     </div>
                     <div class="step-card">
                         <div class="step-txt"><p class="step-desc">${t.ej_green}</p></div>
-                        <div class="step-img-container"><img src="aplikacje/myEjector/Instrukcja3.png" class="step-img img-fit-height" alt=""></div>
+                        <div class="step-img-container"><img src="instrukcje/myEjector/Instrukcja3.png" class="step-img img-fit-height" alt=""></div>
                     </div>
                     <div class="step-card">
                         <div class="step-txt"><p class="step-desc">${t.ej_menu}</p></div>
-                        <div class="step-img-container"><img src="aplikacje/myEjector/Instrukcja4.png" class="step-img img-fit-height" alt=""></div>
+                        <div class="step-img-container"><img src="instrukcje/myEjector/Instrukcja4.png" class="step-img img-fit-height" alt=""></div>
                     </div>
                     <div class="step-card" style="grid-column: 1 / -1;">
                         <div class="step-txt">
@@ -993,7 +994,7 @@
                     <div class="step-card" style="grid-column: 1 / -1;">
                         <div class="step-txt"><p class="step-desc">${t.ssh_soon}</p></div>
                         <div class="step-img-container" style="height: auto; padding: 20px;">
-                            <img src="aplikacje/mySSH/Instrukcja1.png" class="step-img img-fit-width" alt="">
+                            <img src="instrukcje/mySSH/Instrukcja1.png" class="step-img img-fit-width" alt="">
                         </div>
                     </div>
                 </div>`;
@@ -1012,7 +1013,7 @@
                             <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; padding-left: 20px; margin: 12px 0 0 0;">${list1}</ul>
                         </div>
                         <div class="step-img-container" style="height: auto; padding: 20px;">
-                            <img src="aplikacje/myDisplay/Instrukcja1.png" class="step-img img-fit-width" alt="">
+                            <img src="instrukcje/myDisplay/Instrukcja1.png" class="step-img img-fit-width" alt="">
                         </div>
                     </div>
 
@@ -1023,7 +1024,7 @@
                             <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; padding-left: 20px; margin: 12px 0 0 0;">${list2}</ul>
                         </div>
                         <div class="step-img-container" style="height: auto; padding: 20px;">
-                            <img src="aplikacje/myDisplay/Instrukcja2.png" class="step-img img-fit-width" alt="">
+                            <img src="instrukcje/myDisplay/Instrukcja2.png" class="step-img img-fit-width" alt="">
                         </div>
                     </div>
                 </div>`;
@@ -1048,29 +1049,29 @@
                         <div class="manual-grid">
                             <div class="step-card">
                                 <div class="step-txt"><span class="step-title">${stepLbl} 1:</span><p class="step-desc">${step1}</p></div>
-                                <div class="step-img-container"><img src="aplikacje/Instrukcja_instalacji/Instalacja1.png" class="step-img img-fit-width" alt=""></div>
+                                <div class="step-img-container"><img src="instrukcje/instalacja/Instalacja1.png" class="step-img img-fit-width" alt=""></div>
                             </div>
                             <div class="step-card">
                                 <div class="step-txt"><span class="step-title">${stepLbl} 2:</span><p class="step-desc">${step2}</p></div>
-                                <div class="step-img-container"><img src="aplikacje/Instrukcja_instalacji/Instalacja2.png" class="step-img img-fit-height" alt=""></div>
+                                <div class="step-img-container"><img src="instrukcje/instalacja/Instalacja2.png" class="step-img img-fit-height" alt=""></div>
                             </div>
                             <div class="step-card" style="grid-column: 1 / -1;">
                                 <div class="step-txt"><span class="step-title">${stepLbl} 3:</span><p class="step-desc">${step3}</p></div>
                                 <div style="display:flex; gap: 15px; flex-wrap: wrap;">
-                                    <div class="step-img-container" style="height: 240px; flex: 1; min-width: 280px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja3.png" class="step-img img-fit-height" alt=""></div>
-                                    <div class="step-img-container" style="height: 240px; flex: 1; min-width: 280px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja4.png" class="step-img img-fit-height" alt=""></div>
+                                    <div class="step-img-container" style="height: 240px; flex: 1; min-width: 280px;"><img src="instrukcje/instalacja/Instalacja3.png" class="step-img img-fit-height" alt=""></div>
+                                    <div class="step-img-container" style="height: 240px; flex: 1; min-width: 280px;"><img src="instrukcje/instalacja/Instalacja4.png" class="step-img img-fit-height" alt=""></div>
                                 </div>
                                 <p class="step-desc" style="margin-top: 12px;">${step3Alt}</p>
                             </div>
 
                             <div class="manual-full-width">${troubleshoot}</div>
-                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja5.png" class="step-img img-fit-height" alt=""></div></div>
-                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja6.png" class="step-img img-fit-height" alt=""></div></div>
-                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja7.png" class="step-img img-fit-height" alt=""></div></div>
-                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja8.png" class="step-img img-fit-height" alt=""></div></div>
+                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="instrukcje/instalacja/Instalacja5.png" class="step-img img-fit-height" alt=""></div></div>
+                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="instrukcje/instalacja/Instalacja6.png" class="step-img img-fit-height" alt=""></div></div>
+                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="instrukcje/instalacja/Instalacja7.png" class="step-img img-fit-height" alt=""></div></div>
+                            <div class="step-card"><div class="step-img-container" style="height: 200px;"><img src="instrukcje/instalacja/Instalacja8.png" class="step-img img-fit-height" alt=""></div></div>
                             <div class="step-card" style="grid-column: 1 / -1;">
                                 <div class="step-txt"><span class="step-title">${doneTitle}</span><p class="step-desc">${doneDesc}</p></div>
-                                <div class="step-img-container" style="height: auto; padding: 20px;"><img src="aplikacje/Instrukcja_instalacji/Instalacja9.png" class="step-img img-fit-width" alt=""></div>
+                                <div class="step-img-container" style="height: auto; padding: 20px;"><img src="instrukcje/instalacja/Instalacja9.png" class="step-img img-fit-width" alt=""></div>
                             </div>
                         </div>
                         <div class="manual-footer">${footer}</div>
@@ -1214,7 +1215,7 @@
                 doc_title: "get-dmg.com | Professional Mac Tools",
                 menu_toggle_label: "Open menu",
                 back_to_top_label: "Back to top",
-                nav_home: "Home", nav_downloads: "Downloads", nav_contact: "Contact",
+                nav_home: "Home", nav_downloads: "Downloads", nav_whats_new: "What’s new", nav_contact: "Contact",
                 nav_group_author: "Original", nav_group_recommended: "Recommended",
                 nav_recommended_placeholder: "Coming soon",
                 section_author_title: "Original apps", section_author_desc: "Tools created by me — no subscriptions and no unnecessary friction.",
@@ -1257,7 +1258,7 @@
                 doc_title: "get-dmg.com | Profesjonalne narzędzia na Mac",
                 menu_toggle_label: "Otwórz menu",
                 back_to_top_label: "Wróć na górę",
-                nav_home: "Start", nav_downloads: "Pobieranie", nav_contact: "Kontakt",
+                nav_home: "Start", nav_downloads: "Pobieranie", nav_whats_new: "Co nowego", nav_contact: "Kontakt",
                 nav_group_author: "Autorskie", nav_group_recommended: "Polecane",
                 nav_recommended_placeholder: "Wkrótce",
                 section_author_title: "Autorskie aplikacje", section_author_desc: "Narzędzia tworzone przeze mnie – bez subskrypcji i zbędnych formalności.",
@@ -1300,7 +1301,7 @@
                 doc_title: "get-dmg.com | Professionelle Mac-Tools",
                 menu_toggle_label: "Menü öffnen",
                 back_to_top_label: "Nach oben",
-                nav_home: "Start", nav_downloads: "Downloads", nav_contact: "Kontakt",
+                nav_home: "Start", nav_downloads: "Downloads", nav_whats_new: "Neuigkeiten", nav_contact: "Kontakt",
                 nav_group_author: "Eigene", nav_group_recommended: "Empfohlen",
                 nav_recommended_placeholder: "Demnächst",
                 section_author_title: "Eigene Apps", section_author_desc: "Tools von mir — ohne Abos und ohne unnötige Hürden.",
@@ -1343,7 +1344,7 @@
                 doc_title: "get-dmg.com | Професійні інструменти для Mac",
                 menu_toggle_label: "Відкрити меню",
                 back_to_top_label: "Нагору",
-                nav_home: "Головна", nav_downloads: "Завантаження", nav_contact: "Контакти",
+                nav_home: "Головна", nav_downloads: "Завантаження", nav_whats_new: "Що нового", nav_contact: "Контакти",
                 nav_group_author: "Авторські", nav_group_recommended: "Рекомендовані",
                 nav_recommended_placeholder: "Незабаром",
                 section_author_title: "Авторські програми", section_author_desc: "Інструменти, створені мною — без підписок і зайвих кроків.",
@@ -1395,16 +1396,16 @@
             const dispHTML = `<details class="manual-details"><summary>${t.about_title || t.desc_label}</summary><div class="manual-inner">${generateDisplayManual(m)}</div></details>`;
 
             const ipEl = document.querySelector('[data-app="myip"]');
-            if (ipEl) ipEl.innerHTML = getAppContent(t, "Ikony aplikacji/myIP/myIP.jpg", "myIP", "myip", t.desc_ip, ipHTML);
+            if (ipEl) ipEl.innerHTML = getAppContent(t, "ikony/myIP.jpg", "myIP", "myip", t.desc_ip, ipHTML);
 
             const ejEl = document.querySelector('[data-app="myejector"]');
-            if (ejEl) ejEl.innerHTML = getAppContent(t, "Ikony aplikacji/myEjector/myEjector.png", "myEjector", "myejector", t.desc_ejector, ejHTML);
+            if (ejEl) ejEl.innerHTML = getAppContent(t, "ikony/myEjector.png", "myEjector", "myejector", t.desc_ejector, ejHTML);
 
             const sshEl = document.querySelector('[data-app="myssh"]');
-            if (sshEl) sshEl.innerHTML = getAppContent(t, "Ikony aplikacji/mySSH/mySSH.png", "mySSH", "myssh", t.desc_ssh_soon, sshHTML, { status: 'soon' });
+            if (sshEl) sshEl.innerHTML = getAppContent(t, "ikony/mySSH.png", "mySSH", "myssh", t.desc_ssh_soon, sshHTML, { status: 'soon' });
 
             const dispEl = document.querySelector('[data-app="mydisplay"]');
-            if (dispEl) dispEl.innerHTML = getAppContent(t, "Ikony aplikacji/myDisplay/myDisplay.png", "myDisplay", "mydisplay", t.desc_display, dispHTML);
+            if (dispEl) dispEl.innerHTML = getAppContent(t, "ikony/myDisplay.png", "myDisplay", "mydisplay", t.desc_display, dispHTML);
         }
 
         function applyI18n(lang) {
@@ -1484,14 +1485,23 @@
                     visitsEl.textContent = formatNumber(v.value);
                 }
             } catch (e) {
-                visitsEl.textContent = '—';
+                // Fallback: użyj localStorage jeśli CountAPI nie działa
+                let visits = parseInt(localStorage.getItem('local_visits') || '0');
+                if (!sessionStorage.getItem('counted_visit')) {
+                    sessionStorage.setItem('counted_visit', '1');
+                    visits++;
+                    localStorage.setItem('local_visits', visits.toString());
+                }
+                visitsEl.textContent = formatNumber(visits);
             }
 
             try {
                 const d = await countapiGet('downloads');
                 downloadsEl.textContent = formatNumber(d.value);
             } catch (e) {
-                downloadsEl.textContent = '—';
+                // Fallback: użyj localStorage jeśli CountAPI nie działa
+                const downloads = parseInt(localStorage.getItem('local_downloads') || '0');
+                downloadsEl.textContent = formatNumber(downloads);
             }
         }
 
@@ -1504,7 +1514,12 @@
                 const downloadsEl = document.getElementById('stats-downloads');
                 if (downloadsEl) downloadsEl.textContent = formatNumber(d.value);
             } catch (e) {
-                // ignore
+                // Fallback: użyj localStorage jeśli CountAPI nie działa
+                let downloads = parseInt(localStorage.getItem('local_downloads') || '0');
+                downloads++;
+                localStorage.setItem('local_downloads', downloads.toString());
+                const downloadsEl = document.getElementById('stats-downloads');
+                if (downloadsEl) downloadsEl.textContent = formatNumber(downloads);
             } finally {
                 downloadsHitInFlight = false;
             }

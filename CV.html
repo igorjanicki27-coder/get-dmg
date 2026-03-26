@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - Anna Krystyna KOZIURA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap');
+    @page { size: A4; margin: 10mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background: #eef1f5;
+      color: #2d241b;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .pages {
+      width: 210mm;
+      margin: 8mm auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8mm;
+    }
+    .cv {
+      width: 210mm;
+      min-height: 297mm;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 70mm 1fr;
+      box-shadow: 0 2px 12px rgba(23, 34, 48, 0.12);
+      outline: 1px solid #d6dce6;
+      border-radius: 4px;
+      overflow: hidden;
+      page-break-after: always;
+    }
+    .cv:last-child { page-break-after: auto; }
+    .sidebar {
+      background: #2b4a33;
+      background-image:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 26%),
+        radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 52%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.28) 100%);
+      color: #f5f7fb;
+      padding: 10mm 7mm;
+    }
+    .cv-title {
+      margin: 0 0 12.5mm;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: #2b4a33;
+      font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1;
+    }
+    .sidebar h1 { margin: 3mm 0 6mm; font-size: 22px; line-height: 1.15; }
+    .subtitle { margin: 0 0 6mm; color: #dce8dc; font-size: 12px; }
+    .photo {
+      width: 100%;
+      max-width: 44mm;
+      height: 56mm;
+      object-fit: cover;
+      border: 2px solid #9fb79f;
+      display: block;
+      margin: 0 auto 5mm;
+    }
+    .block { margin-bottom: 6mm; }
+    .block h2 {
+      margin: 0 0 2.5mm;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #eef6ee;
+      border-bottom: 1px solid #7f9a7f;
+      padding-bottom: 1.5mm;
+    }
+    .block p, .block li { margin: 0 0 1.4mm; font-size: 12px; }
+    .clearance-text {
+      font-size: 8px;
+      line-height: 1.15;
+      margin-top: 0.6mm;
+      white-space: nowrap;
+      letter-spacing: 0;
+    }
+    .block ul { margin: 0; padding-left: 4.5mm; }
+    .block ul.no-bullets {
+      list-style: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+    .block ul.no-bullets li {
+      position: relative;
+    }
+    .block ul.no-bullets li::before {
+      content: "\2022";
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #eef6ee;
+      font-size: 10px;
+      line-height: 1;
+    }
+    .block ul.no-bullets li.clearance-item::before {
+      top: 0.48em;
+      transform: none;
+    }
+
+    .main {
+      padding: 10mm 10mm 9mm;
+      display: flex;
+      flex-direction: column;
+      min-height: 297mm;
+    }
+    .section { margin-bottom: 5mm; }
+    .section h2 {
+      margin: 0 0 2.5mm;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #2b4a33;
+      border-bottom: 2px solid #d5e0d5;
+      padding-bottom: 1.5mm;
+      letter-spacing: 0.3px;
+    }
+    .entry { margin-bottom: 3.8mm; }
+    .entry .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-weight: 700;
+    }
+    .section.timeline .entry .head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 64px;
+      column-gap: 10px;
+      align-items: start;
+    }
+    .section.timeline .entry .head span:first-child {
+      padding-right: 2px;
+      overflow-wrap: break-word;
+    }
+    .section.timeline .entry .head span:last-child {
+      white-space: nowrap;
+      text-align: right;
+    }
+    .entry .org { margin-top: 1px; color: #42566f; font-style: italic; }
+    .entry .subtext { margin-top: 1px; color: #42566f; font-style: normal; font-weight: 400; }
+    .entry ul { margin: 1.5mm 0 0 5mm; padding: 0; }
+    .entry li { margin-bottom: 1.2mm; }
+    .exp-section .entry {
+      margin-bottom: 5.5mm;
+      padding-bottom: 2.8mm;
+      border-bottom: 1px solid #e3e8ef;
+    }
+    .exp-section .entry:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .exp-section .entry ul {
+      list-style: none;
+      margin: 2mm 0 0;
+      padding: 0;
+    }
+    .exp-section .entry li {
+      margin: 0;
+      color: #1f2a3a;
+    }
+    .exp-section .entry .head {
+      margin-bottom: 1.2mm;
+    }
+    .rodo {
+      margin-top: auto;
+      font-size: 10.7px;
+      color: #8a96a6;
+      border-top: 1px solid #d4dde9;
+      padding-top: 2.5mm;
+    }
+    @media print {
+      body { background: #fff; }
+      .pages { margin: 0; gap: 0; }
+      .cv {
+        box-shadow: none;
+        outline: none;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="pages">
+  <main class="cv">
+    <aside class="sidebar">
+      <img class="photo" src="ZDJĘCIE 3,5x4,5.jpg" alt="Zdjęcie kandydatki">
+      <h1>Anna Krystyna KOZIURA</h1>
+
+      <div class="block">
+        <h2>Kontakt</h2>
+        <p>tel. 791 792 827</p>
+        <p>ania-janicki27@wp.pl</p>
+        <p>ul. Olgi Boznańskiej 21 </p>
+        <p>59-300, Lubin </p>
+      </div>
+
+      <div class="block">
+        <h2>Kluczowe kompetencje</h2>
+        <ul class="no-bullets">
+          <li>Administracja publiczna i biurowa</li>
+          <li>Obieg dokumentów i korespondencji</li>
+          <li>Praca proceduralna i odpowiedzialność</li>
+          <li>Koordynacja zadań i współpraca zespołowa</li>
+          <li>Gotowość do działania kryzysowego</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2>Uprawnienia</h2>
+        <ul class="no-bullets">
+          <li>Prawo jazdy: AM, B1, B, C1, C</li>
+          <li>Obsługa urządzeń transportu bliskiego</li>
+          <li>Kwalifikowana Pierwsza Pomoc - Ratownik</li>
+          <li class="clearance-item">
+            Poświadczenie bezpieczeństwa:
+            <p class="clearance-text">ŚCIŚLE TAJNE<br>COSMIC TOP SECRET<br>TRES SECRET UE / EU TOP SECRET</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2>Profil</h2>
+        <p>
+          Kandydatka z doświadczeniem w administracji, pracy z dokumentacją i organizacji procesów operacyjnych.
+          Posiada wieloletnią praktykę w środowisku cywilnym oraz służbie wojskowej, w tym na stanowiskach
+          wymagających wysokiej dyscypliny proceduralnej, terminowości i poufności.
+        </p>
+      </div>
+
+    </aside>
+
+    <section class="main">
+      <p class="cv-title">Curriculum Vitae</p>
+      <div class="section timeline">
+        <h2>Wykształcenie</h2>
+        <div class="entry"><div class="head"><span>Policealna Szkoła Medyczna PASCAL</span><span>2023</span></div></div>
+        <div class="entry"><div class="head"><span>Szkoła Podoficerska SONDA</span><span>2021</span></div></div>
+        <div class="entry"><div class="head"><span>Policealne Studium Ochrony Fizycznej</span><span>2016</span></div></div>
+        <div class="entry"><div class="head"><span>Liceum Ekonomiczne - technik ekonomista (matura)</span><span>1998</span></div></div>
+      </div>
+
+      <div class="section timeline">
+        <h2>Kursy i szkolenia</h2>
+        <div class="entry"><div class="head"><span>Szkolenie specjalistyczne dla kandydatów na stanowiska kancelarii tajnej i kancelarii tajnej międzynarodowej oraz stanowiska pokrewne.</span><span>2025</span></div></div>
+        <div class="entry">
+          <div class="head"><span>Raport i fotografia w ochronie dóbr kultury.</span><span>2024</span></div>
+          <p class="org">Międzynarodowy Ośrodek Szkolenia i Badań nad Dziedzictwem<br>Kultury w Zagrożeniu.</p>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Kurs taktyczno-operacyjny współpracy cywilno-wojskowej.</span><span>2024</span></div>
+          <p class="org">Centrum Przygotowań do Misji Zagranicznych.</p>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Ochrona dóbr kultury w zadaniach korpusu wychowawczego.</span><span>2023</span></div>
+          <p class="org">Międzynarodowy Ośrodek Szkolenia i Badań nad Dziedzictwem<br>Kultury w Zagrożeniu.</p>
+        </div>
+        <div class="entry"><div class="head"><span>Kurs przygotowania pedagogicznego.</span><span>2023</span></div></div>
+        <div class="entry">
+          <div class="head"><span>Kurs systemu HMS JAŚMIN.</span><span>2022</span></div>
+          <p class="org">Akademia Sztuki Wojennej.</p>
+        </div>
+        <div class="entry"><div class="head"><span>Kurs doskonalący SERE poziom A.</span><span>2020</span></div></div>
+        <div class="entry"><div class="head"><span>Kurs wsparcia medycznego w związku z epidemią COVID-19.</span><span>2020</span></div></div>
+        <div class="entry"><div class="head"><span>Kurs Kwalifikowanej Pierwszej Pomocy.</span><span>2017</span></div></div>
+      </div>
+
+      <div class="section exp-section">
+        <h2>Doświadczenie cywilne</h2>
+        <div class="entry">
+          <div class="head"><span>Pracownik sklepu</span><span>2011 - 2012</span></div>
+          <p class="org">Lidl Polska, Głogów</p>
+          <ul>
+            <li>Obsługa klienta i bieżąca organizacja pracy sklepu zgodnie ze standardami firmy.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Operator wtryskarki</span><span>2011 - 2014</span></div>
+          <p class="org">PIJOB, Głogów</p>
+          <ul>
+            <li>Obsługa maszyn wtryskowych oraz nadzór nad jakością i ciągłością procesu produkcji.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Operator / Zastępca lidera produkcji</span><span>2010 - 2011</span></div>
+          <p class="org">Vorwerk Dichtungssysteme Polska, Komorniki</p>
+          <ul>
+            <li>Realizacja planu produkcyjnego i wsparcie koordynacji pracy zespołu produkcyjnego.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Zastępca kierownika sklepu</span><span>2008 - 2010</span></div>
+          <p class="org">NG2, Polkowice</p>
+          <ul>
+            <li>Wspieranie zarządzania zespołem oraz realizacji planów sprzedażowych placówki.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Starszy referent ds. płatników i ubezpieczonych</span><span>2007 - 2008</span></div>
+          <p class="org">Zakład Ubezpieczeń Społecznych, Wrocław</p>
+          <ul>
+            <li>Obsługa spraw płatników składek i osób ubezpieczonych oraz prowadzenie dokumentacji.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Pracownik biurowy</span><span>2006 - 2007</span></div>
+          <p class="org">PERFAND Andrzej Trawiński, Psary</p>
+          <ul>
+            <li>Korespondencja, sekretariat, zaopatrzenie, organizacja transportu.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Referent ds. wynajmu</span><span>1998 - 2004</span></div>
+          <p class="org">Maszyny Budowlane "Tyburski", Wrocław</p>
+          <ul>
+            <li>Umowy, faktury, obsługa klienta, sekretariat, kasa.</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <main class="cv">
+    <aside class="sidebar">
+    </aside>
+
+    <section class="main">
+      <div class="section exp-section">
+        <h2>Doświadczenie wojskowe</h2>
+        <div class="entry">
+          <div class="head"><span>Kancelista kancelarii tajnej</span><span>2025 - teraz</span></div>
+          <p class="org">Jednostki wojskowe - służba zawodowa</p>
+          <ul>
+            <li>Prowadzenie i obsługa dokumentacji kancelarii tajnej zgodnie z obowiązującymi procedurami.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Podoficer sztabowy sekcji wychowawczej</span><span>2024 - 2025</span></div>
+          <p class="org">Sekcja wychowawcza - służba zawodowa</p>
+          <ul>
+            <li>Wsparcie zadań wychowawczych i organizacyjnych realizowanych przez sekcję.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Podoficer sztabowy sekcji współpracy cywilno-wojskowej</span><span>2023 - 2024</span></div>
+          <p class="org">Sekcja CIMIC - służba zawodowa</p>
+          <ul>
+            <li>Wspieranie kontaktu i wymiany informacji z podmiotami administracji oraz instytucjami cywilnymi.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Podoficer sekcji logistyki</span><span>2022 - 2023</span></div>
+          <p class="org">Sekcja logistyki - służba zawodowa</p>
+          <ul>
+            <li>Wsparcie planowania i realizacji zabezpieczenia logistycznego pododdziałów.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Laborant sekcji szkolenia</span><span>2020 - 2022</span></div>
+          <p class="org">Sekcja szkolenia - służba zawodowa</p>
+          <ul>
+            <li>Wsparcie organizacji procesu szkoleniowego i przygotowania materiałów dydaktycznych.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Kierowca kat. C</span><span>2017 - 2020</span></div>
+          <p class="org">Jednostki wojskowe - służba zawodowa</p>
+          <ul>
+            <li>Prowadzenie pojazdów ciężarowych i zabezpieczanie transportu sprzętu oraz wyposażenia.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head"><span>Kierowca kat. B</span><span>2014 - 2017</span></div>
+          <p class="org">Jednostki wojskowe - służba zawodowa</p>
+          <ul>
+            <li>Realizacja przewozu personelu i materiałów zgodnie z harmonogramem jednostki.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="rodo">
+        Wyrażam zgodę na przetwarzanie moich danych osobowych zawartych w dokumentach aplikacyjnych dla potrzeb niezbędnych do realizacji procesu rekrutacji zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 (RODO).
+      </p>
+    </section>
+  </main>
+  </div>
+</body>
+</html>
