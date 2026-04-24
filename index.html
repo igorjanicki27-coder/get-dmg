@@ -551,6 +551,7 @@
             .desc-col { display: none; }
         }
     </style>
+    <link rel="stylesheet" href="/cookie-consent.css">
 </head>
 <body>
     <button class="hamburger-btn" onclick="toggleMenu()" data-i18n-attr="aria-label:menu_toggle_label" aria-label="Menu">
@@ -685,7 +686,11 @@
                 </div>
 
                 <div class="legal-line">
-                    <a onclick="openModal('modal-terms')" class="legal-link" data-i18n="legal_link">Terms & Conditions</a>
+                    <a href="/dokumenty/regulamin.html" class="legal-link">Regulamin</a>
+                    <span class="sep">•</span>
+                    <a href="/dokumenty/polityka-prywatnosci.html" class="legal-link">Polityka Prywatności</a>
+                    <span class="sep">•</span>
+                    <a href="/dokumenty/rodo.html" class="legal-link">RODO</a>
                 </div>
 
                 <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; width: 100%; color: var(--text-muted);">
@@ -1531,6 +1536,7 @@
             updateActiveNav();
         });
     </script>
+    <script src="/cookie-consent.js"></script>
 </body>
 </html>
 
